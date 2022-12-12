@@ -8,30 +8,37 @@ class AuthService {
   static final AuthService _instance = AuthService._();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-
   Future<void> sendSms({required String phoneNumber}) async {
-    _firebaseAuth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout: Duration(seconds: 60),
-      verificationCompleted: (AuthCredential credential) async {
-        UserCredential result =
-            await _firebaseAuth.signInWithCredential(credential);
-        if (result.user != null) {
-          print("Success");
-        } else {
-          print("Error");
-        }
-      },
-      verificationFailed: (FirebaseAuthException exception) {
-        print(exception);
-      },
-      codeSent: (verificationId, forceResendingToken) {
-        verification  = verificationId;
-      },
-      codeAutoRetrievalTimeout: (verificationId) {
-         verificationId  = verificationId;
-      },
-    );
+    try {
+      await _firebaseAuth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: Duration(seconds: 60),
+        verificationCompleted: (AuthCredential credential) async {
+          UserCredential result =
+              await _firebaseAuth.signInWithCredential(credential);
+          if (result.user != null) {
+            print("Success");
+          } else {
+            print("Error");
+          }
+        },
+        verificationFailed: (FirebaseAuthException exception) {
+          print(exception);
+        },
+        codeSent: (verificationId, forceResendingToken) {
+          verification = verificationId;
+        },
+        codeAutoRetrievalTimeout: (verificationId) {
+          verificationId = verificationId;
+        },
+      );
+    } catch (e) {
+      print("dfdfdffdf");
+      print(e.toString());
+      print("dfdfdffdf");
+      print(e);
+      print("dfdfdffdf");
+    }
   }
 
   logout() async {

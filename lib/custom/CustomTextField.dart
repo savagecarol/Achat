@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
+
+  String hintText;
   final double hintTextSize;
   final String initialValue;
-
   final TextInputType textInputType;
   final Function onSaved;
   final Function(String?)? onChanged;
@@ -24,7 +23,7 @@ class CustomTextField extends StatelessWidget {
   final Color cursorColor;
 
   CustomTextField(
-      {required this.labelText,
+      {
       required this.hintText,
       this.preIconSize = 30,
       this.hintTextSize = 16,
@@ -67,11 +66,12 @@ class CustomTextField extends StatelessWidget {
               initialValue: initialValue,
               style: const TextStyle(fontSize: 16, color: Colors.black),
               decoration: InputDecoration(
+                   floatingLabelBehavior: FloatingLabelBehavior.always,
                 border: InputBorder.none,
                 hintText: hintText,
-                labelText: labelText,
-                labelStyle: const TextStyle(
-                        fontSize: 16, color: Colors.black),
+                labelStyle:
+                 GoogleFonts.montserrat(
+                      textStyle: const TextStyle(fontSize: 16, color: Colors.black)),
                 prefixIcon: isPrefixIcon
                     ? Icon(
                         icon,
@@ -79,9 +79,8 @@ class CustomTextField extends StatelessWidget {
                         size: preIconSize,
                       )
                     : null,
-                hintStyle: 
-               const TextStyle(
-                        fontSize: 16, color: Colors.black),
+                hintStyle:   GoogleFonts.montserrat(
+                      textStyle: const TextStyle(fontSize: 16, color: Colors.black)),
               ),
             ),
           ),

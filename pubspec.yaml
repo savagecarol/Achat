@@ -35,12 +35,14 @@ dependencies:
   shared_preferences: ^2.0.0
   firebase_core: ^2.1.1
   firebase_auth: ^4.1.1
-
+  google_fonts: ^3.0.1
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.10.0"
   flutter_test:
     sdk: flutter
 
@@ -54,6 +56,10 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/dove.png"
+  min_sdk_android: 21 
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -61,6 +67,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -2,7 +2,8 @@ import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -14,53 +15,98 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   bool _isPageLoading = false;
   String phoneNumber = "";
+  bool isSmsLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _isPageLoading ?
-      const Center(
-        child: CircularProgressIndicator(
-        ),
-      ):SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                  height: 64,
-                ),
-              const Text(
-                  "Enter Phone Number",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  child: CustomTextField(
-                    hintText: "",
-                    hintTextSize: 16,
-                    initialValue: '',
-                    onChanged: (value) {
-                      phoneNumber = value!;
-                    },
-                    onSaved: () {},
-                    validator: () {},
-                    labelText: '+91',
-                  ),
-                ),
-                CustomButton(
-                    postIcon: Icons.arrow_forward_ios,
-                    visiblepostIcon: false,
-                    labelText: "Send Otp",
-                    onTap: () {
-                      authService.sendSms(phoneNumber: "+91"+phoneNumber);
-                    },
-                    containerColor: Colors.orange)
-            ],
-          ),
-        ),
-      )
-    );
+    return ScreenUtilInit(builder: ((context, child) {
+      return Scaffold(
+          body: _isPageLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 128),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Container(
+                                height: 100.h,
+                                width: 100.w,
+                                child: Image.asset("assets/images/dove.png")),
+                            SizedBox(
+                              height: 128.h,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Chat With Pigeon",
+                                    style: GoogleFonts.montserrat(
+                                        textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold))),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          padding:
+                                              const EdgeInsets.only(right: 8),
+                                          child: Text("+91 -",
+                                              style: GoogleFonts.montserrat(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w600)))),
+                                      Flexible(
+                                        child: CustomTextField(
+                                            textInputType: TextInputType.number,
+                                            hintText: "Phone Number",
+                                            hintTextSize: 16,
+                                            initialValue: '',
+                                            onChanged: (value) {
+                                              phoneNumber = value!;
+                                            },
+                                            onSaved: () {},
+                                            validator: () {}),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                CustomButton(
+                                    isLoading: isSmsLoading,
+                                    postIcon: Icons.arrow_forward,
+                                    visiblepostIcon: true,
+                                    postIconColor: Colors.white,
+                                    postIconSize: 18.h,
+                                    labelText: "SEND OTP  ",
+                                    sizelabelText: 16.h,
+                                    onTap: () async {
+                                      setState(() {
+                                        isSmsLoading = true;
+                                      });
+                                      try {
+                                        await authService.sendSms(
+                                            phoneNumber: "+91$phoneNumber");
+                                      } catch (e) {
+                                        print(e.toString());
+                                      }
+                                      setState(() {
+                                        isSmsLoading = false;
+                                      });
+                                    },
+                                    containerColor: Colors.black)
+                              ],
+                            ),
+                          ],
+                        ),
+                      )),
+                ));
+    }));
   }
 }

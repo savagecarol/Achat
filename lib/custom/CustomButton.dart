@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomButton extends StatelessWidget {
   final IconData postIcon;
@@ -36,7 +37,7 @@ class CustomButton extends StatelessWidget {
             color: containerColor,
             boxShadow: const [
               BoxShadow(
-                  color: Colors.grey, blurRadius: 5, offset: Offset(2, 4))
+                  color: Colors.grey, blurRadius: 10, offset: Offset(2, 4))
             ]),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -46,11 +47,8 @@ class CustomButton extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(labelText,
-                          style:
-                        const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600)),
+                          style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(fontSize: 16, color: Colors.white , fontWeight: FontWeight.w600))),
                       Container(
                         child: (visiblepostIcon)
                             ? Icon(
@@ -63,8 +61,8 @@ class CustomButton extends StatelessWidget {
                     ],
                   )
                 : const SizedBox(
-                    height: 20.0,
-                    width: 20,
+                    height: 16.0,
+                    width: 16,
                     child: CircularProgressIndicator(color: Colors.black),
                   ),
           ),
