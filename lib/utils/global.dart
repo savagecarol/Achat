@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 String verification = "";
 final AuthService authService = AuthService.getInstance();
-
+final MAX_INT = 4294967296;
 
 Color accentPurpleColor = Color(0xFF6A53A1);
 Color primaryColor = Color(0xFF121212);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-
   String hintText;
   final double hintTextSize;
   final String initialValue;
@@ -17,14 +16,13 @@ class CustomTextField extends StatelessWidget {
   final bool size;
   final bool onRegPage;
   final bool obscureText;
-
   final int minLine;
   final int? maxLine;
   final Color cursorColor;
+  final bool expand;
 
   CustomTextField(
-      {
-      required this.hintText,
+      {required this.hintText,
       this.preIconSize = 30,
       this.hintTextSize = 16,
       required this.initialValue,
@@ -40,7 +38,8 @@ class CustomTextField extends StatelessWidget {
       this.cursorColor = Colors.black,
       this.maxLine = null,
       this.minLine = 1,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.expand = false});
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +65,12 @@ class CustomTextField extends StatelessWidget {
               initialValue: initialValue,
               style: const TextStyle(fontSize: 16, color: Colors.black),
               decoration: InputDecoration(
-                   floatingLabelBehavior: FloatingLabelBehavior.always,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 border: InputBorder.none,
                 hintText: hintText,
-                labelStyle:
-                 GoogleFonts.montserrat(
-                      textStyle: const TextStyle(fontSize: 16, color: Colors.black)),
+                labelStyle: GoogleFonts.montserrat(
+                    textStyle:
+                        const TextStyle(fontSize: 16, color: Colors.black)),
                 prefixIcon: isPrefixIcon
                     ? Icon(
                         icon,
@@ -79,8 +78,9 @@ class CustomTextField extends StatelessWidget {
                         size: preIconSize,
                       )
                     : null,
-                hintStyle:   GoogleFonts.montserrat(
-                      textStyle: const TextStyle(fontSize: 16, color: Colors.black)),
+                hintStyle: GoogleFonts.montserrat(
+                    textStyle:
+                        const TextStyle(fontSize: 16, color: Colors.black)),
               ),
             ),
           ),
