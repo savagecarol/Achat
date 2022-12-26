@@ -1,7 +1,7 @@
 import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/custom/OtpField.dart';
 import 'package:anonymous_chat/presentation/Auth.dart';
-import 'package:anonymous_chat/presentation/ChatScreen.dart';
+import 'package:anonymous_chat/presentation/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +21,7 @@ class _OTPState extends State<OTP> {
     Navigator.pop(context);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ChatScreen()),
+      MaterialPageRoute(builder: (context) => const SplashScreen()),
     );
   }
 

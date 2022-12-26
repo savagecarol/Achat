@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:anonymous_chat/Services/AuthService.dart';
 import 'package:flutter/material.dart';
 
@@ -11,3 +13,8 @@ Color accentPinkColor = Color(0xFFF99BBD);
 Color accentDarkGreenColor = Color(0xFF115C49);
 Color accentYellowColor = Color(0xFFFFB612);
 Color accentOrangeColor = Color(0xFFEA7A3B);
+
+Color randomcolor() {
+  var generatedColor = Random().nextInt(Colors.primaries.length);
+  return Colors.primaries[generatedColor];
+}
