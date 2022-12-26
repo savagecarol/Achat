@@ -1,5 +1,6 @@
 import 'package:anonymous_chat/firebase_options.dart';
 import 'package:anonymous_chat/presentation/Auth.dart';
+import 'package:anonymous_chat/presentation/OTP.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return const MaterialApp(
-        title: "Chat Screen", debugShowCheckedModeBanner: false, home: Auth());
+    return  const MaterialApp(
+      debugShowCheckedModeBanner: false, home:Auth());
   }
 }

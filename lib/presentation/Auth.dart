@@ -1,5 +1,6 @@
 import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/custom/CustomTextField.dart';
+import 'package:anonymous_chat/presentation/OTP.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,14 +14,23 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-  bool _isPageLoading = false;
+  bool isPageLoading = false;
   String phoneNumber = "";
   bool isSmsLoading = false;
+
+  void _goToOtpScreen() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OTP(phoneNumber: phoneNumber)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(builder: ((context, child) {
       return Scaffold(
-          body: _isPageLoading
+          body: isPageLoading
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -36,7 +46,7 @@ class _AuthState extends State<Auth> {
                                 width: 100.w,
                                 child: Image.asset("assets/images/dove.png")),
                             SizedBox(
-                              height: 128.h,
+                              height: 64.h,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -86,19 +96,21 @@ class _AuthState extends State<Auth> {
                                     postIconSize: 18.h,
                                     labelText: "SEND OTP  ",
                                     sizelabelText: 16.h,
-                                    onTap: () async {
-                                      setState(() {
-                                        isSmsLoading = true;
-                                      });
-                                      try {
-                                        await authService.sendSms(
-                                            phoneNumber: "+91$phoneNumber");
-                                      } catch (e) {
-                                        print(e.toString());
-                                      }
-                                      setState(() {
-                                        isSmsLoading = false;
-                                      });
+                                    onTap: () {
+                                      print("sddsfdsfsdsfdsf");
+                                      // setState(() {
+                                      //   isSmsLoading = true;
+                                      // });
+                                      // try {
+                                      //   await authService.sendSms(
+                                      //       phoneNumber: "+91$phoneNumber");
+                                      // } catch (e) {
+                                      //   print(e.toString());
+                                      // }
+                                      // setState(() {
+                                      //   isSmsLoading = false;
+                                      // });
+                                      _goToOtpScreen();
                                     },
                                     containerColor: Colors.black)
                               ],

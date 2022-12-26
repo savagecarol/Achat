@@ -85,6 +85,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  connectivity_plus:
+    dependency: transitive
+    description:
+      name: connectivity_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
+  connectivity_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: connectivity_plus_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
+  connectivity_widget:
+    dependency: "direct main"
+    description:
+      name: connectivity_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   convert:
     dependency: transitive
     description:
@@ -106,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.8"
   fake_async:
     dependency: transitive
     description:
@@ -188,6 +216,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_otp_text_field:
+    dependency: "direct main"
+    description:
+      name: flutter_otp_text_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -282,6 +317,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  nm:
+    dependency: transitive
+    description:
+      name: nm
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   path:
     dependency: transitive
     description:
@@ -373,6 +415,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -455,6 +504,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  stream_disposable:
+    dependency: transitive
+    description:
+      name: stream_disposable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   string_scanner:
     dependency: transitive
     description:
