@@ -2,6 +2,7 @@ import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/presentation/OTP.dart';
 import 'package:anonymous_chat/utils/global.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,12 +18,33 @@ class _AuthState extends State<Auth> {
   bool isPageLoading = false;
   String phoneNumber = "";
   bool isSmsLoading = false;
+  late String verifId;
 
   void _goToOtpScreen() {
     Navigator.pop(context);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => OTP(phoneNumber: phoneNumber)),
+      MaterialPageRoute(builder: (context) => OTP(verifId: verifId)),
+    );
+  }
+
+  Future<void> phoneAuth() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      codeSent: (String id, forceResendingToken) {
+        verifId = id;
+        _goToOtpScreen();
+      },
+      codeAutoRetrievalTimeout: (String id) {
+        verifId = id;
+      },
+      timeout: Duration(seconds: 10),
+      verificationCompleted: (AuthCredential credential) {
+        print(credential);
+      },
+      verificationFailed: (FirebaseAuthException exception) {
+        print(exception.message);
+      },
     );
   }
 
@@ -33,8 +55,7 @@ class _AuthState extends State<Auth> {
         isSmsLoading = true;
       });
       try {
-        await authService.sendSms(phoneNumber: "+91$phoneNumber");
-        _goToOtpScreen();
+        await phoneAuth();
       } catch (e) {
         print("FDfd");
         print(e.toString());

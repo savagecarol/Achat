@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OTP extends StatefulWidget {
-  String phoneNumber;
-  OTP({super.key, required this.phoneNumber});
+  String verifId;
+  OTP({super.key, required this.verifId});
 
   @override
   State<OTP> createState() => _OTPState();
