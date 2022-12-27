@@ -18,3 +18,19 @@ Color randomcolor() {
   var generatedColor = Random().nextInt(Colors.primaries.length);
   return Colors.primaries[generatedColor];
 }
+
+String displayName(String x, {int length = 26}) {
+  if (x.length > length) return x.substring(0, length);
+  return x;
+}
+
+String showTime(DateTime time) {
+  Duration diff = DateTime.now().difference(time);
+  if (diff.inHours.abs() > 48) {
+    return "${time.day}/${time.month}/${time.year}";
+  } else if (diff.inHours.abs() > 24) {
+    return "Yesterday";
+  } else {
+    return "${time.hour}:${time.minute}";
+  }
+}

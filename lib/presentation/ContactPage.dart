@@ -2,6 +2,7 @@ import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,7 +41,7 @@ class _ContactPageState extends State<ContactPage> {
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
-        padding: const EdgeInsets.only(right: 32, left: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child : Column(
           children: [
             for(int i = 0 ; i < _contacts!.length; i++) _contactWidget(_contacts![i])
@@ -52,17 +53,7 @@ class _ContactPageState extends State<ContactPage> {
 Widget _contactWidget(Contact contact)
 {
     return  Container(
-                  padding: const EdgeInsets.only(right: 8 ,top: 16 , bottom: 16),
-                  margin: const EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5,
-                            offset: Offset(2, 2))
-                      ]),
+                  padding: const EdgeInsets.symmetric(vertical: 8 , horizontal: 8),
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
@@ -73,35 +64,30 @@ Widget _contactWidget(Contact contact)
                       );
                     },
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 32,
-                              child: FloatingActionButton(onPressed: () {} , 
-                              backgroundColor: randomcolor(),
-                              child: Text(contact.displayName[0],
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold))),
-                              ),
-                            ),
-                            
-                            Container(
-                              width: 220,
-                              child: Text(contact.displayName,    
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500))),
-                            ),
-                          ],
-                        ),
-                        const Icon(Icons.arrow_forward)
+                         Container(
+                   height: 32,
+                   width: 32,
+                   margin: const EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+            color: randomcolor(),
+            shape: BoxShape.circle
+          ),
+                child: Center(
+                  child: Text(contact.displayName[0],
+                      style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold))),
+                ),
+              ),        
+                        Text(displayName(contact.displayName),
+                            style: GoogleFonts.montserrat(
+                                textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500))),
                       ],
                     ),
                   ),
@@ -114,6 +100,7 @@ Widget _contactWidget(Contact contact)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
             leading: Builder(
               builder: (BuildContext context) {
