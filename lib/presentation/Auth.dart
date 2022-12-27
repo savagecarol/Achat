@@ -26,6 +26,28 @@ class _AuthState extends State<Auth> {
     );
   }
 
+  void getOtp() async {
+    String? message = phoneRegex(phoneNumber);
+    if (message == null) {
+      setState(() {
+        isSmsLoading = true;
+      });
+      try {
+        await authService.sendSms(phoneNumber: "+91$phoneNumber");
+        _goToOtpScreen();
+      } catch (e) {
+        print("FDfd");
+        print(e.toString());
+        showToast("!oops Not able to send Otp");
+      }
+      setState(() {
+        isSmsLoading = false;
+      });
+    } else {
+      showToast(message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(builder: ((context, child) {
@@ -96,22 +118,7 @@ class _AuthState extends State<Auth> {
                                     postIconSize: 18.h,
                                     labelText: "SEND OTP  ",
                                     sizelabelText: 16.h,
-                                    onTap: () {
-                                      print("sddsfdsfsdsfdsf");
-                                      // setState(() {
-                                      //   isSmsLoading = true;
-                                      // });
-                                      // try {
-                                      //   await authService.sendSms(
-                                      //       phoneNumber: "+91$phoneNumber");
-                                      // } catch (e) {
-                                      //   print(e.toString());
-                                      // }
-                                      // setState(() {
-                                      //   isSmsLoading = false;
-                                      // });
-                                      _goToOtpScreen();
-                                    },
+                                    onTap: getOtp,
                                     containerColor: Colors.black)
                               ],
                             ),

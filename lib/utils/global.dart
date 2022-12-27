@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:anonymous_chat/Services/AuthService.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 String verification = "";
 final AuthService authService = AuthService.getInstance();
@@ -33,4 +34,26 @@ String showTime(DateTime time) {
   } else {
     return "${time.hour}:${time.minute}";
   }
+}
+
+showToast(String message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0);
+}
+
+String? phoneRegex(String phone) {
+  String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+  RegExp regExp = new RegExp(pattern);
+  if (phone.length == 0) {
+    return 'Please enter mobile number';
+  } else if (!regExp.hasMatch(phone)) {
+    return 'Please enter valid mobile number';
+  }
+  return null;
 }

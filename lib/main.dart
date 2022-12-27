@@ -1,6 +1,5 @@
 import 'package:anonymous_chat/firebase_options.dart';
 import 'package:anonymous_chat/presentation/Auth.dart';
-import 'package:anonymous_chat/presentation/OTP.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +23,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return  const MaterialApp(
-      debugShowCheckedModeBanner: false, home:Auth());
+      debugShowCheckedModeBanner: false,
+      home:Auth());
   }
 }
