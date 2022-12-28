@@ -30,7 +30,7 @@ class _AuthState extends State<Auth> {
 
   Future<void> phoneAuth() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
+      phoneNumber: "+91$phoneNumber",
       codeSent: (String id, forceResendingToken) {
         verifId = id;
         _goToOtpScreen();
