@@ -36,7 +36,7 @@ class _ContactPageState extends State<ContactPage> {
       return const Center(child: Text('Permission denied'));
     }
     if (_contacts == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator(color: Colors.black));
     }
     return SingleChildScrollView(
       child: Container(

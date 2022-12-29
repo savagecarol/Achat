@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:anonymous_chat/custom/LastMessageBox.dart';
 import 'package:anonymous_chat/models/LastMessage.dart';
 import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/presentation/ContactPage.dart';
+import 'package:anonymous_chat/presentation/Profile.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,65 +42,65 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         body: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _splash = true;
-                    });
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: randomcolor(),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 2,
-                              offset: Offset(2, 2))
-                        ]),
-                    child: Text("Chatters",
-                        style: GoogleFonts.montserrat(
-                            textStyle: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold))),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _splash = false;
-                    });
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 16),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: randomcolor(),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 2,
-                              offset: Offset(2, 2))
-                        ]),
-                    child: Text("Pigenoary",
-                        style: GoogleFonts.montserrat(
-                            textStyle: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold))),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     GestureDetector(
+            //       onTap: () {
+            //         setState(() {
+            //           _splash = true;
+            //         });
+            //       },
+            //       child: Container(
+            //         margin: const EdgeInsets.only(right: 16),
+            //         padding: const EdgeInsets.all(8),
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             color: randomcolor(),
+            //             boxShadow: const [
+            //               BoxShadow(
+            //                   color: Colors.grey,
+            //                   blurRadius: 2,
+            //                   offset: Offset(2, 2))
+            //             ]),
+            //         child: Text("Chatters",
+            //             style: GoogleFonts.montserrat(
+            //                 textStyle: const TextStyle(
+            //                     fontSize: 18,
+            //                     color: Colors.white,
+            //                     fontWeight: FontWeight.bold))),
+            //       ),
+            //     ),
+            //     GestureDetector(
+            //       onTap: () {
+            //         setState(() {
+            //           _splash = false;
+            //         });
+            //       },
+            //       child: Container(
+            //         margin: const EdgeInsets.only(left: 16),
+            //         padding: const EdgeInsets.all(8),
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             color: randomcolor(),
+            //             boxShadow: const [
+            //               BoxShadow(
+            //                   color: Colors.grey,
+            //                   blurRadius: 2,
+            //                   offset: Offset(2, 2))
+            //             ]),
+            //         child: Text("Pigenoary",
+            //             style: GoogleFonts.montserrat(
+            //                 textStyle: const TextStyle(
+            //                     fontSize: 18,
+            //                     color: Colors.white,
+            //                     fontWeight: FontWeight.bold))),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: 16),
-            _splash ? _screen1() : _screen2()
+            _screen1() 
           ],
         ),
       );
@@ -118,6 +121,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       );
                 },
                 child: LastMessageBox(
+                  isIcon: index %2 == 0,
                     lastMessage: LastMessage(
                         displayName: "Kartikeya Sharma",
                         lastMessage: "My name is kartikeya sharna",
@@ -126,44 +130,58 @@ class _SplashScreenState extends State<SplashScreen> {
             }));
   }
 
-  Widget _screen2() {
-    return Expanded(
-        child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatScreen(displayName :"#1234566")),
-                      );
-                },
-                child: LastMessageBox(
-                  isIcon: false,
-                    lastMessage: LastMessage(
-                        displayName: "#1234566",
-                        lastMessage: "My name is kartikeya sharma dnfjsf knsdkfbsdkf dg ndkf sdnsjkdf lsdinlfnsidl,",
-                        timeStamp: DateTime.now())),
-              );
-            }));
-  }
+  // Widget _screen2() {
+  //   return Expanded(
+  //       child: ListView.builder(
+  //           itemCount: 10,
+  //           itemBuilder: (BuildContext context, int index) {
+  //             return GestureDetector(
+  //               onTap: (){
+  //                   Navigator.push(
+  //                       context,
+  //                       MaterialPageRoute(
+  //                           builder: (context) => ChatScreen(displayName :"#1234566")),
+  //                     );
+  //               },
+  //               child: LastMessageBox(
+  //                 isIcon: false,
+  //                   lastMessage: LastMessage(
+  //                       displayName: "#1234566",
+  //                       lastMessage: "My name is kartikeya sharma dnfjsf knsdkfbsdkf dg ndkf sdnsjkdf lsdinlfnsidl,",
+  //                       timeStamp: DateTime.now())),
+  //             );
+  //           }));
+  // }
 
   Widget _appBarWidget() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-            height: 42.h,
-            width: 42.w,
-            margin: const EdgeInsets.only(right: 8),
-            child: Image.asset("assets/images/dove.png")),
-        Text("Pigeon",
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+                height: 42.h,
+                width: 42.w,
+                margin: const EdgeInsets.only(right: 8),
+                child: Image.asset("assets/images/dove.png")),
+                 Text("Pigeon",
             style: GoogleFonts.montserrat(
                 textStyle: const TextStyle(
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold))),
+          ],
+        ),
+          InkWell(
+          onTap: (() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Profile()),
+            );
+          }),
+          child:const  Icon(Icons.account_circle_sharp , color: Colors.black,size: 36 ,),
+        )     
       ],
     );
   }

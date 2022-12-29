@@ -14,6 +14,12 @@ class LastMessageBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+          border: Border(
+            // top: BorderSide(width: 2, color: Colors.grey.shade600),
+            bottom: BorderSide(width: 2, color: Colors.grey.shade200),
+          ),
+        ),  
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,9 +50,9 @@ class LastMessageBox extends StatelessWidget {
                   Text(displayName(lastMessage.displayName),
                       style: GoogleFonts.montserrat(
                           textStyle: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               color: Colors.black,
-                              fontWeight: FontWeight.w700))),
+                              fontWeight: FontWeight.w600))),
                 ],
               ),
               Text(showTime(lastMessage.timeStamp),
@@ -57,6 +63,7 @@ class LastMessageBox extends StatelessWidget {
                           fontWeight: FontWeight.w600))),
             ],
           ),
+          SizedBox(height: 8,),
           Text(lastMessage.lastMessage,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.montserrat(

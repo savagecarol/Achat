@@ -1,6 +1,7 @@
 import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/presentation/OTP.dart';
+import 'package:anonymous_chat/presentation/SplashScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,29 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-  bool isPageLoading = false;
+  bool isPageLoading = true;
   String phoneNumber = "";
   bool isSmsLoading = false;
   late String verifId;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  _checkAuth() async {
+    if (await preferenceService.getUID() != "") {
+      Navigator.pop(context);
+      Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SplashScreen()),
+      );
+    }
+    setState(() {
+      isPageLoading = false;
+    });
+  }
 
   void _goToOtpScreen() {
     Navigator.pop(context);
@@ -33,17 +53,21 @@ class _AuthState extends State<Auth> {
       phoneNumber: "+91$phoneNumber",
       codeSent: (String id, forceResendingToken) {
         verifId = id;
+        print("verifId ----> " + verifId);
         _goToOtpScreen();
       },
       codeAutoRetrievalTimeout: (String id) {
         verifId = id;
       },
-      timeout: Duration(seconds: 10),
+      timeout: Duration(seconds: 30),
       verificationCompleted: (AuthCredential credential) {
+        print("cred-----> ");
         print(credential);
       },
       verificationFailed: (FirebaseAuthException exception) {
+        print("exceprion----> ");
         print(exception.message);
+        showToast("!oops Not able to send Otp");
       },
     );
   }
@@ -54,13 +78,8 @@ class _AuthState extends State<Auth> {
       setState(() {
         isSmsLoading = true;
       });
-      try {
-        await phoneAuth();
-      } catch (e) {
-        print("FDfd");
-        print(e.toString());
-        showToast("!oops Not able to send Otp");
-      }
+      await phoneAuth();
+
       setState(() {
         isSmsLoading = false;
       });
@@ -139,7 +158,9 @@ class _AuthState extends State<Auth> {
                                     postIconSize: 18.h,
                                     labelText: "SEND OTP  ",
                                     sizelabelText: 16.h,
-                                    onTap: getOtp,
+                                    onTap: () async {
+                                      getOtp();
+                                    },
                                     containerColor: Colors.black)
                               ],
                             ),

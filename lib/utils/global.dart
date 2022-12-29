@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:anonymous_chat/Services/AuthService.dart';
+import 'package:anonymous_chat/Services/PreferenceService.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 String verification = "";
 final AuthService authService = AuthService.getInstance();
+final PreferenceService preferenceService = PreferenceService.getInstance();
 final MAX_INT = 4294967296;
 
 Color accentPurpleColor = Color(0xFF6A53A1);
