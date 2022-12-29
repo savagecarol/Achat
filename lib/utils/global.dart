@@ -59,3 +59,27 @@ String? phoneRegex(String phone) {
   }
   return null;
 }
+
+String CheckStartPhoneNumber(String phone) {
+  if (phone.startsWith("+91")) {
+    return phone;
+  } else {
+    return "+91$phone";
+  }
+}
+
+String removeSpaceDashBracket(String? phone) {
+  if (phone == null) {
+    showToast("!!Oops Something went Wrong");
+    return "";
+  } else {
+    String x="";
+    for (int i = 0; i < phone.length; i++) 
+    {
+      if(double.tryParse(phone[i]) != null )  {
+        x = x+phone[i];
+      }
+    }
+    return x;
+  }
+}

@@ -16,7 +16,6 @@ class LastMessageBox extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
           border: Border(
-            // top: BorderSide(width: 2, color: Colors.grey.shade600),
             bottom: BorderSide(width: 2, color: Colors.grey.shade200),
           ),
         ),  

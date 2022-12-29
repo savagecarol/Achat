@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:anonymous_chat/models/AppUser.dart';
-import 'package:anonymous_chat/models/LastMetaInfo.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,14 +57,13 @@ class AuthService {
       AppUser appUser = AppUser();
       appUser.uid = await preferenceService.getUID();
       appUser.phoneNumber = await preferenceService.getPhone();
-      appUser.isActive = true;
-
       DocumentSnapshot checkDoc =
-          await _firestore.collection('APPUSER').doc(appUser.uid).get();
+          await _firestore.collection('APPUSER').doc(appUser.phoneNumber).get();
       if (!checkDoc.exists) {
         appUser.pigeonId = await getLastPigeonNumber();
+        appUser.isActive = true;
         DocumentReference documentReference =
-            _firestore.collection('APPUSER').doc(appUser.uid);
+            _firestore.collection('APPUSER').doc(appUser.phoneNumber);
         await documentReference.set({
           'uid': appUser.uid,
           'phoneNumber': appUser.phoneNumber,
@@ -73,11 +71,48 @@ class AuthService {
           'dateTime': appUser.creationTime,
           'isActive': appUser.isActive
         });
+      } else {
+        DocumentReference documentReference =
+            _firestore.collection('APPUSER').doc(appUser.phoneNumber);
+        await documentReference.update({'isActive': true, 'uid': appUser.uid});
       }
     } catch (e) {
       print("upload post in post service");
       print(e);
       throw e;
+    }
+  }
+
+  Future<bool> creatUnverifiedUser(String phoneNumber) async {
+    String? message = phoneRegex(phoneNumber);
+    if (message == null) {
+      try {
+        AppUser appUser = AppUser();
+        appUser.phoneNumber = CheckStartPhoneNumber(phoneNumber);
+        DocumentSnapshot checkDoc = await _firestore
+            .collection('APPUSER')
+            .doc(appUser.phoneNumber)
+            .get();
+        if (!checkDoc.exists) {
+          appUser.pigeonId = await getLastPigeonNumber();
+          appUser.isActive = false;
+          DocumentReference documentReference =
+              _firestore.collection('APPUSER').doc(appUser.phoneNumber);
+          await documentReference.set({
+            'pigeonId': appUser.pigeonId,
+            'dateTime': appUser.creationTime,
+            'isActive': appUser.isActive,
+            'phoneNumber': appUser.phoneNumber
+          });
+        }
+        return true;
+      } catch (e) {
+        showToast("!oops Something Went Wrong");
+        return false;
+      }
+    } else {
+      showToast(message);
+      return false;
     }
   }
 }
