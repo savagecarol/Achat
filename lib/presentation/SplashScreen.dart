@@ -158,12 +158,11 @@ class _SplashScreenState extends State<SplashScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
                 height: 42.h,
                 width: 42.w,
-                margin: const EdgeInsets.only(right: 8),
+                 margin: const EdgeInsets.only(right: 8),
                 child: Image.asset("assets/images/dove.png")),
                  Text("Pigeon",
             style: GoogleFonts.montserrat(

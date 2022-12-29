@@ -63,7 +63,7 @@ class LastMessageBox extends StatelessWidget {
                           fontWeight: FontWeight.w600))),
             ],
           ),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Text(lastMessage.lastMessage,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.montserrat(

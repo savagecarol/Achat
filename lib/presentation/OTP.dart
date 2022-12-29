@@ -20,21 +20,26 @@ class _OTPState extends State<OTP> {
   String otp = "";
 
   void _goToChatScreen() async {
+    setState(() {
+      isSmsLoading = true;
+    });
     if (await authService.verify(widget.verifId, otp)) {
       if (await preferenceService.getUID() != "") {
+        await authService.createVerifiedUser();
         Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const SplashScreen()),
         );
-      }
-      else {
+      } else {
         showToast("!!oops Something Went Wrong");
       }
-    }
-    else {
+    } else {
       showToast("!!oops Please type correct Otp");
     }
+      setState(() {
+      isSmsLoading = false;
+    });
   }
 
   void _backToAuthPage() {
