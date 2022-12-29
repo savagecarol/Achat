@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -15,6 +14,8 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   List<Contact>? _contacts;
+  bool _permissionDenied = false;
+
   @override
   void initState() {
     super.initState();
@@ -22,11 +23,46 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   Future<void> _fetchContacts() async {
-    final contacts = await ContactsService.getContacts();
-    setState(() => _contacts = contacts);
+    PermissionStatus permissionStatus = await _getContactPermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      final contacts = await ContactsService.getContacts();
+      setState(() => _contacts = contacts);
+    } else {
+      _permissionDenied = true;
+    }
+  }
+
+  Future<PermissionStatus> _getContactPermission() async {
+    PermissionStatus permission = await Permission.contacts.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.permanentlyDenied) {
+      PermissionStatus permissionStatus = await Permission.contacts.request();
+      return permissionStatus;
+    } else {
+      return permission;
+    }
   }
 
   Widget _body() {
+    if (_permissionDenied) {
+      return Column(
+        children: [
+          const SizedBox(height: 128),
+          SizedBox(
+              height: 256,
+              child: SvgPicture.asset("assets/images/no_data.svg")),
+          const SizedBox(
+            height: 32,
+          ),
+          Text("Permission Denied",
+              style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700)))
+        ],
+      );
+    }
     if (_contacts == null) {
       return const Center(
           child: CircularProgressIndicator(color: Colors.black));
@@ -67,7 +103,6 @@ class _ContactPageState extends State<ContactPage> {
     return InkWell(
       onTap: () async {
         String value = removeSpaceDashBracket(contact.phones!.first.value);
-        print(value);
         if (value != "") {
           if (await authService.creatUnverifiedUser(value)) {
             Navigator.pop(context);
