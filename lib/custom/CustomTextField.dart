@@ -20,9 +20,11 @@ class CustomTextField extends StatelessWidget {
   final int? maxLine;
   final Color cursorColor;
   final bool expand;
+  final int? maxLength;
 
   CustomTextField(
       {required this.hintText,
+      this.maxLength,
       this.preIconSize = 30,
       this.hintTextSize = 16,
       required this.initialValue,
@@ -55,6 +57,8 @@ class CustomTextField extends StatelessWidget {
                 ? const EdgeInsets.all(0)
                 : const EdgeInsets.only(left: 16),
             child: TextFormField(
+              
+              maxLength: maxLength,
               obscureText: obscureText,
               cursorColor: cursorColor,
               minLines: minLine,
@@ -65,6 +69,7 @@ class CustomTextField extends StatelessWidget {
               initialValue: initialValue,
               style: const TextStyle(fontSize: 16, color: Colors.black),
               decoration: InputDecoration(
+                counterText: "",
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 border: InputBorder.none,
                 hintText: hintText,

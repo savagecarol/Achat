@@ -16,8 +16,6 @@ class _ChatScreenState extends State<ChatScreen> {
   String message = "";
   @override
   Widget build(BuildContext context) {
-
-    return ScreenUtilInit(builder: ((context, child) {
       return Scaffold(
           appBar: AppBar(
             leading: Builder(
@@ -48,42 +46,41 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Expanded(child: Container()),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: CustomTextField(
-                          hintText: "Write Message ...",
-                          hintTextSize: 16,
-                          initialValue: '',
-                          onChanged: (value) {
-                            message = value!;
-                          },
-                          maxLine: MAX_INT,
-                          onSaved: () {},
-                          validator: () {}),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 8),
-                      height: 42.h,
-                      child: FloatingActionButton(
-                        onPressed: () {},
-                        backgroundColor: Colors.black,
-                        elevation: 0,
-                        child: Icon(
-                          Icons.send_rounded,
-                          color: Colors.white,
-                          size: 18.h,
+            padding: const EdgeInsets.all(16),
+            child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: CustomTextField(
+                            hintText: "Write Message ...",
+                            hintTextSize: 16,
+                            initialValue: '',
+                            onChanged: (value) {
+                              message = value!;
+                            },
+                            maxLine: MAX_INT,
+                            onSaved: () {},
+                            validator: () {}),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 8),
+                        height: 42.h,
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          backgroundColor: Colors.black,
+                          elevation: 0,
+                          child: Icon(
+                            Icons.send_rounded,
+                            color: Colors.white,
+                            size: 18.h,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+          ),
             ],
-          ));
-    }));
+          ),
+
+          );
   }
 }

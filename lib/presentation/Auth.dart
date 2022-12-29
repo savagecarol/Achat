@@ -137,6 +137,7 @@ class _AuthState extends State<Auth> {
                                                           FontWeight.w600)))),
                                       Flexible(
                                         child: CustomTextField(
+                                          maxLength: 10,
                                             textInputType: TextInputType.number,
                                             hintText: "Phone Number",
                                             hintTextSize: 16,
