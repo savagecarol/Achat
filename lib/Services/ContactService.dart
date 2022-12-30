@@ -27,9 +27,11 @@ class ContactService {
     var querySnapshot = await collection.get();
     for (var doc in querySnapshot.docs) {
       Map<String, dynamic> data = doc.data();
+
       if (x.contains(data['phoneNumber'])) {
-        available.add(data['phoneNumber']);
+         if(data['isActive'] == true) available.add(data['phoneNumber']);
       }
+
     }
 
     for (int i = 0; i < listContact.length; i++) {

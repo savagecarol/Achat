@@ -34,6 +34,7 @@ class AuthService {
       await _firebaseAuth.signOut();
       await preferenceService.removeUID();
       await preferenceService.removePhone();
+      await preferenceService.removePigeonId();
     } catch (e) {
       return e;
     }
@@ -71,10 +72,12 @@ class AuthService {
           'dateTime': appUser.creationTime,
           'isActive': appUser.isActive
         });
+        await preferenceService.setPigeonId(appUser.pigeonId!);
       } else {
         DocumentReference documentReference =
             _firestore.collection('APPUSER').doc(appUser.phoneNumber);
         await documentReference.update({'isActive': true, 'uid': appUser.uid});
+        await preferenceService.setPigeonId(checkDoc.get('pigeonId'));
       }
     } catch (e) {
       print("upload post in post service");
@@ -83,16 +86,18 @@ class AuthService {
     }
   }
 
-  Future<bool> creatUnverifiedUser(String phoneNumber) async {
+  Future<AppUser> creatUnverifiedUser(String phoneNumber) async {
     String? message = phoneRegex(phoneNumber);
     if (message == null) {
       try {
         AppUser appUser = AppUser();
         appUser.phoneNumber = checkStartPhoneNumber(phoneNumber);
+
         DocumentSnapshot checkDoc = await _firestore
             .collection('APPUSER')
             .doc(appUser.phoneNumber)
             .get();
+
         if (!checkDoc.exists) {
           appUser.pigeonId = await getLastPigeonNumber();
           appUser.isActive = false;
@@ -104,15 +109,19 @@ class AuthService {
             'isActive': appUser.isActive,
             'phoneNumber': appUser.phoneNumber
           });
+          return appUser;
+        } else {
+          appUser.pigeonId = checkDoc.get('pigeonId');
+          print(appUser.pigeonId);
+          return appUser;
         }
-        return true;
       } catch (e) {
         showToast("!oops Something Went Wrong");
-        return false;
+        return AppUser();
       }
     } else {
       showToast(message);
-      return false;
+      return AppUser();
     }
   }
 }

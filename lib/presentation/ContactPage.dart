@@ -1,3 +1,4 @@
+import 'package:anonymous_chat/models/AppUser.dart';
 import 'package:anonymous_chat/models/ExsistContact.dart';
 import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
@@ -15,7 +16,7 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   List<Contact>? _contacts;
-   List<ExsistContact> exsistContactList = [];
+  List<ExsistContact> exsistContactList = [];
   bool _permissionDenied = false;
 
   @override
@@ -28,7 +29,8 @@ class _ContactPageState extends State<ContactPage> {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
       final contacts = await ContactsService.getContacts();
-      exsistContactList = await contactService.getAllActiveUserByContactList(contacts);
+      exsistContactList =
+          await contactService.getAllActiveUserByContactList(contacts);
       setState(() => _contacts = contacts);
     } else {
       _permissionDenied = true;
@@ -107,15 +109,21 @@ class _ContactPageState extends State<ContactPage> {
       onTap: () async {
         String value = removeSpaceDashBracket(exsistContact.contact.phones!.first.value);
         if (value != "") {
-          if (await authService.creatUnverifiedUser(value)) {
+          AppUser a = await authService.creatUnverifiedUser(value); 
+          if (a.pigeonId != null) {
             Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ChatScreen(displayName: exsistContact.contact.displayName!)),
+                  builder: (context) => ChatScreen(
+                        displayName: exsistContact.contact.displayName!,
+                        phoneNumber: a.phoneNumber!,
+                        pigeonId: a.pigeonId!,
+                      )),
             );
           }
+        } else {
+          showToast("!oops Something Went Wrong");
         }
       },
       child: Container(
@@ -130,8 +138,8 @@ class _ContactPageState extends State<ContactPage> {
                   height: 32,
                   width: 32,
                   margin: const EdgeInsets.only(right: 8),
-                  decoration:
-                      BoxDecoration(color: randomcolor(), shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      color: randomcolor(), shape: BoxShape.circle),
                   child: Center(
                     child: Text(exsistContact.contact.displayName![0],
                         style: GoogleFonts.montserrat(
@@ -149,7 +157,13 @@ class _ContactPageState extends State<ContactPage> {
                             fontWeight: FontWeight.w500))),
               ],
             ),
-            exsistContact.isActive ? const Icon(Icons.check , color: Colors.green , size: 24,) : Container()
+            exsistContact.isActive
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                    size: 24,
+                  )
+                : Container()
           ],
         ),
       ),

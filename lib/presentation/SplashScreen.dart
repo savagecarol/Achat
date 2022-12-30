@@ -114,11 +114,11 @@ class _SplashScreenState extends State<SplashScreen> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                  onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatScreen(displayName :"Kartikeya Sharma")),
-                      );
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => ChatScreen(displayName :"Kartikeya Sharma")),
+                    //   );
                 },
                 child: LastMessageBox(
                   isIcon: index %2 == 0,

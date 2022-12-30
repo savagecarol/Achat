@@ -8,11 +8,13 @@ class PreferenceService {
   static final PreferenceService _instance = PreferenceService._();
 
   static const String uid = 'uid';
-    static const String phone = 'phone';
-
+  static const String phone = 'phone';
+static const String pigeonId = 'pigeonId';
   Future<SharedPreferences> _getInstance() async {
     return SharedPreferences.getInstance();
   }
+
+  //uid
 
   Future<void> setUID(String uid) async {
     (await _getInstance()).setString(PreferenceService.uid, uid);
@@ -30,8 +32,9 @@ class PreferenceService {
     (await _getInstance()).setString(PreferenceService.uid, "");
   }
 
+
   Future<void> setPhone(String phone) async {
-    (await _getInstance()).setString(PreferenceService.phone, phone);
+    (await _getInstance()).setString(PreferenceService.phone, phone.toString());
   }
 
   Future<String> getPhone() async {
@@ -41,8 +44,24 @@ class PreferenceService {
     }
     return "";
   }
-
   Future<void> removePhone() async {
     (await _getInstance()).setString(PreferenceService.phone, "");
   }  
+
+
+  Future<void> setPigeonId(int pigeonId) async {
+    (await _getInstance()).setString(PreferenceService.pigeonId, pigeonId.toString());
+  }
+
+  Future<String> getPigeonId() async {
+    String? value = (await _getInstance()).getString(PreferenceService.pigeonId);
+    if (value != null) {
+      return value;
+    }
+    return "";
+  }
+  Future<void> removePigeonId() async {
+    (await _getInstance()).setString(PreferenceService.pigeonId, "");
+  }  
+
 }
