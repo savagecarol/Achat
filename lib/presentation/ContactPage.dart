@@ -1,3 +1,4 @@
+import 'package:anonymous_chat/models/ExsistContact.dart';
 import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -14,6 +15,7 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   List<Contact>? _contacts;
+   List<ExsistContact> exsistContactList = [];
   bool _permissionDenied = false;
 
   @override
@@ -26,6 +28,7 @@ class _ContactPageState extends State<ContactPage> {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
       final contacts = await ContactsService.getContacts();
+      exsistContactList = await contactService.getAllActiveUserByContactList(contacts);
       setState(() => _contacts = contacts);
     } else {
       _permissionDenied = true;
@@ -92,17 +95,17 @@ class _ContactPageState extends State<ContactPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    for (int i = 0; i < _contacts!.length; i++)
-                      _contactWidget(_contacts![i])
+                    for (int i = 0; i < exsistContactList.length; i++)
+                      _contactWidget(exsistContactList[i])
                   ],
                 )),
           );
   }
 
-  Widget _contactWidget(Contact contact) {
+  Widget _contactWidget(ExsistContact exsistContact) {
     return InkWell(
       onTap: () async {
-        String value = removeSpaceDashBracket(contact.phones!.first.value);
+        String value = removeSpaceDashBracket(exsistContact.contact.phones!.first.value);
         if (value != "") {
           if (await authService.creatUnverifiedUser(value)) {
             Navigator.pop(context);
@@ -110,7 +113,7 @@ class _ContactPageState extends State<ContactPage> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ChatScreen(displayName: contact.displayName!)),
+                      ChatScreen(displayName: exsistContact.contact.displayName!)),
             );
           }
         }
@@ -118,29 +121,35 @@ class _ContactPageState extends State<ContactPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 32,
-              width: 32,
-              margin: const EdgeInsets.only(right: 8),
-              decoration:
-                  BoxDecoration(color: randomcolor(), shape: BoxShape.circle),
-              child: Center(
-                child: Text(contact.displayName![0],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 32,
+                  width: 32,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration:
+                      BoxDecoration(color: randomcolor(), shape: BoxShape.circle),
+                  child: Center(
+                    child: Text(exsistContact.contact.displayName![0],
+                        style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))),
+                  ),
+                ),
+                Text(displayName(exsistContact.contact.displayName!),
                     style: GoogleFonts.montserrat(
                         textStyle: const TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))),
-              ),
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500))),
+              ],
             ),
-            Text(displayName(contact.displayName!),
-                style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500))),
+            exsistContact.isActive ? const Icon(Icons.check , color: Colors.green , size: 24,) : Container()
           ],
         ),
       ),

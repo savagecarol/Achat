@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:anonymous_chat/Services/AuthService.dart';
+import 'package:anonymous_chat/Services/ContactService.dart';
 import 'package:anonymous_chat/Services/PreferenceService.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 String verification = "";
 final AuthService authService = AuthService.getInstance();
+final ContactService contactService = ContactService.getInstance();
 final PreferenceService preferenceService = PreferenceService.getInstance();
 final MAX_INT = 4294967296;
 
@@ -60,7 +62,7 @@ String? phoneRegex(String phone) {
   return null;
 }
 
-String CheckStartPhoneNumber(String phone) {
+String checkStartPhoneNumber(String phone) {
   if (phone.startsWith("+91")) {
     return phone;
   } else {

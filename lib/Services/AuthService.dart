@@ -88,7 +88,7 @@ class AuthService {
     if (message == null) {
       try {
         AppUser appUser = AppUser();
-        appUser.phoneNumber = CheckStartPhoneNumber(phoneNumber);
+        appUser.phoneNumber = checkStartPhoneNumber(phoneNumber);
         DocumentSnapshot checkDoc = await _firestore
             .collection('APPUSER')
             .doc(appUser.phoneNumber)
