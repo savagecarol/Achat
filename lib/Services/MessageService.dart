@@ -1,4 +1,5 @@
 import 'package:anonymous_chat/models/Message.dart';
+import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -20,7 +21,7 @@ class MessageService {
         'message': message.message,
         'isSeen': message.isSeen,
         'time': message.time,
-        'seenTime' : message.seenTime
+        'seenTime': message.seenTime
       });
       return true;
     } catch (e) {
@@ -29,22 +30,13 @@ class MessageService {
   }
 
   Stream<dynamic> getStream() {
-    return _firestore.collection('MESSAGE').orderBy('time').snapshots();
+    return _firestore.collection('MESSAGE').orderBy('time' , descending: true).snapshots();
   }
 
-  List<Message> getSpecificMessage(
+  List<MessageDirection> getSpecificMessage(
       List<DocumentSnapshot> docList, int sender, int receiver) {
-    List<Message> messages = [];
-
-    print(sender);
-    print(receiver);
-
+    List<MessageDirection> messages = [];
     for (int i = 0; i < docList.length; i++) {
-      // if ((docList[i].get('senderPigeonId') == sender &&
-      //         docList[i].get('receiverPigeonId') == receiver) ||
-      //     (docList[i].get('senderPigeonId') == receiver &&
-      //         docList[i].get('receiverPigeonId') == sender)) {
-      print("asa");
       Message message = Message(
         sender: docList[i].get('sender').toString(),
         senderPigeonId: docList[i].get('senderPigeonId').toString(),
@@ -55,10 +47,15 @@ class MessageService {
       );
       message.time == docList[i].get('time');
       message.seenTime == docList[i].get('seenTime');
-      messages.add(message);
-    }
 
-    print(messages);
-    return messages;
+      if ((docList[i].get('senderPigeonId') == sender.toString() &&
+          docList[i].get('receiverPigeonId') == receiver.toString())) {
+        messages.add(MessageDirection(message: message, isLeft: false));
+      } else if (docList[i].get('senderPigeonId') == receiver.toString() &&
+          docList[i].get('receiverPigeonId') == sender.toString()) {
+         messages.add(MessageDirection(message: message, isLeft: true));
+      }
+    }
+      return messages;
   }
 }

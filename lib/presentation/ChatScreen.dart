@@ -1,5 +1,7 @@
 import 'package:anonymous_chat/custom/CustomTextField.dart';
+import 'package:anonymous_chat/custom/MessageBox.dart';
 import 'package:anonymous_chat/models/Message.dart';
+import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,8 +65,9 @@ class _ChatScreenState extends State<ChatScreen> {
             stream: messageService.getStream(),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
-                List<Message> listDocument = messageService.getSpecificMessage(
-                    snapshot.data.docs, widget.userPigeonId, widget.pigeonId);
+                List<MessageDirection> listDocument =
+                    messageService.getSpecificMessage(snapshot.data.docs,
+                        widget.userPigeonId, widget.pigeonId);
                 if (listDocument.isEmpty) {
                   return SingleChildScrollView(
                     child: Column(
@@ -87,7 +90,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   );
                 } else {
-                  return Container();
+                  return ListView.builder(
+                      reverse: true,
+                      itemCount: listDocument.length,
+                      itemBuilder: (context, index) {
+                        return MessageBox(messageDirection : listDocument[index]);
+                      });
                 }
               } else {
                 return SingleChildScrollView(
