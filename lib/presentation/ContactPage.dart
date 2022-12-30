@@ -110,6 +110,8 @@ class _ContactPageState extends State<ContactPage> {
         String value = removeSpaceDashBracket(exsistContact.contact.phones!.first.value);
         if (value != "") {
           AppUser a = await authService.creatUnverifiedUser(value); 
+          int userPigeonId =  int.parse(await preferenceService.getPigeonId());
+          
           if (a.pigeonId != null) {
             Navigator.pop(context);
             Navigator.push(
@@ -119,6 +121,7 @@ class _ContactPageState extends State<ContactPage> {
                         displayName: exsistContact.contact.displayName!,
                         phoneNumber: a.phoneNumber!,
                         pigeonId: a.pigeonId!,
+                        userPigeonId: userPigeonId
                       )),
             );
           }

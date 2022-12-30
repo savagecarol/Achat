@@ -6,7 +6,7 @@ class Message {
   DateTime time = DateTime.now();
   String message;
   bool isSeen;
-  DateTime? seenTime;
+  DateTime seenTime = DateTime.now();
   Message({
       required this.sender,
       required this.receiver,

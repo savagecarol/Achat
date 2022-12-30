@@ -80,7 +80,6 @@ class AuthService {
         await preferenceService.setPigeonId(checkDoc.get('pigeonId'));
       }
     } catch (e) {
-      print("upload post in post service");
       print(e);
       throw e;
     }
@@ -112,7 +111,7 @@ class AuthService {
           return appUser;
         } else {
           appUser.pigeonId = checkDoc.get('pigeonId');
-          print(appUser.pigeonId);
+  
           return appUser;
         }
       } catch (e) {

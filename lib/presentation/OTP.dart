@@ -90,11 +90,9 @@ class _OTPState extends State<OTP> {
                     keyboardType: TextInputType.number,
                     onSubmit: (String verificationCode) {
                       otp = verificationCode;
-                      print(otp);
                     },
                     onCodeChanged: (String verificationCode) {
                       otp = verificationCode;
-                      print(otp);
                     },
                   )),
               Container(
