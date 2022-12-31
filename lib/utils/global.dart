@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:anonymous_chat/Services/AuthService.dart';
 import 'package:anonymous_chat/Services/ContactService.dart';
 import 'package:anonymous_chat/Services/MessageService.dart';
+import 'package:anonymous_chat/Services/PigeonService.dart';
 import 'package:anonymous_chat/Services/PreferenceService.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +13,7 @@ final AuthService authService = AuthService.getInstance();
 final ContactService contactService = ContactService.getInstance();
 final PreferenceService preferenceService = PreferenceService.getInstance();
 final MessageService messageService = MessageService.getInstance();
+final PigeonService pigeonService = PigeonService.getInstance();
 final MAX_INT = 4294967296;
 
 Color accentPurpleColor = Color(0xFF6A53A1);
@@ -87,3 +89,5 @@ String removeSpaceDashBracket(String? phone) {
     return x;
   }
 }
+
+

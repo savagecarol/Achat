@@ -62,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
               child: StreamBuilder(
-            stream: messageService.getStream(),
+            stream: messageService.getStream(widget.userPigeonId ,  widget.pigeonId),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
                 List<MessageDirection> listDocument =

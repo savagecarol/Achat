@@ -26,10 +26,11 @@ class _OTPState extends State<OTP> {
     if (await authService.verify(widget.verifId, otp)) {
       if (await preferenceService.getUID() != "") {
         await authService.createVerifiedUser();
+        String pigeonId = await preferenceService.getPigeonId();
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const SplashScreen()),
+          MaterialPageRoute(builder: (context) => SplashScreen(pigeonId: pigeonId,)),
         );
       } else {
         showToast("!!oops Something Went Wrong");
@@ -37,7 +38,7 @@ class _OTPState extends State<OTP> {
     } else {
       showToast("!!oops Please type correct Otp");
     }
-      setState(() {
+    setState(() {
       isSmsLoading = false;
     });
   }

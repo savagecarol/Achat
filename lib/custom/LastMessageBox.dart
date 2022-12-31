@@ -1,13 +1,14 @@
 import 'package:anonymous_chat/models/LastMessage.dart';
+import 'package:anonymous_chat/models/LastMessageIcon.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 class LastMessageBox extends StatelessWidget {
-  LastMessage lastMessage;
-  bool isIcon;
-  LastMessageBox({super.key, required this.lastMessage , this.isIcon = true});
+  LastMessageIcon lastMessageIcon;
+
+  LastMessageBox({super.key, required this.lastMessageIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class LastMessageBox extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  isIcon
+                  lastMessageIcon.isIcon
                       ? Container(
                           height: 32,
                           width: 32,
@@ -37,7 +38,7 @@ class LastMessageBox extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: randomcolor(), shape: BoxShape.circle),
                           child: Center(
-                            child: Text(lastMessage.displayName[0],
+                            child: Text(lastMessageIcon.lastMessage.displayName[0],
                                 style: GoogleFonts.montserrat(
                                     textStyle: const TextStyle(
                                         fontSize: 16,
@@ -46,7 +47,7 @@ class LastMessageBox extends StatelessWidget {
                           ),
                         )
                       : Container(),
-                  Text(displayName(lastMessage.displayName),
+                  Text(displayName(lastMessageIcon.lastMessage.displayName),
                       style: GoogleFonts.montserrat(
                           textStyle: const TextStyle(
                               fontSize: 18,
@@ -54,7 +55,7 @@ class LastMessageBox extends StatelessWidget {
                               fontWeight: FontWeight.w600))),
                 ],
               ),
-              Text(showTime(lastMessage.timeStamp),
+              Text(showTime(lastMessageIcon.lastMessage.timeStamp),
                   style: GoogleFonts.montserrat(
                       textStyle: const TextStyle(
                           fontSize: 16,
@@ -63,7 +64,7 @@ class LastMessageBox extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8,),
-          Text(lastMessage.lastMessage,
+          Text(lastMessageIcon.lastMessage.lastMessage,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.montserrat(
                   textStyle: const TextStyle(

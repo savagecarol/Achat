@@ -29,11 +29,23 @@ class _AuthState extends State<Auth> {
 
   _checkAuth() async {
     if (await preferenceService.getUID() != "") {
-      Navigator.pop(context);
-      Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SplashScreen()),
-      );
+      String pigeonId = await preferenceService.getPigeonId();
+      if (pigeonId != null || pigeonId != "") {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SplashScreen(
+                    pigeonId: pigeonId,
+                  )),
+        );
+      } else {
+        showToast("!oops something went wronh");
+      }
+
+    }
+    else{
+        showToast("!oops something went wronh");
     }
     setState(() {
       isPageLoading = false;
@@ -137,7 +149,7 @@ class _AuthState extends State<Auth> {
                                                           FontWeight.w600)))),
                                       Flexible(
                                         child: CustomTextField(
-                                          maxLength: 10,
+                                            maxLength: 10,
                                             textInputType: TextInputType.number,
                                             hintText: "Phone Number",
                                             hintTextSize: 16,
