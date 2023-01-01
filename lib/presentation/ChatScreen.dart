@@ -94,7 +94,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       reverse: true,
                       itemCount: listDocument.length,
                       itemBuilder: (context, index) {
-                        return MessageBox(messageDirection : listDocument[index]);
+                        return MessageBox(
+                            messageDirection: listDocument[index]);
                       });
                 }
               } else {
@@ -172,10 +173,12 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       isMessageLoading = true;
     });
+
     String sender = await preferenceService.getPhone();
     String receiver = widget.phoneNumber;
     String senderPigeonId = await preferenceService.getPigeonId();
     String receiverPigeonId = widget.pigeonId.toString();
+
     Message postMessage = Message(
         sender: sender,
         receiver: receiver,
@@ -184,9 +187,15 @@ class _ChatScreenState extends State<ChatScreen> {
         receiverPigeonId: receiverPigeonId);
     postMessage.seenTime = postMessage.time;
 
-    if (!await messageService.postMessage(postMessage)) {
-      showToast("!oops something went wrong");
+    if (postMessage.senderPigeonId != postMessage.receiverPigeonId) {
+      if (!await messageService.postMessage(postMessage)) {
+        showToast("!oops something went wrong");
+      }
     }
+    else{
+        showToast("!sender and receiver cannot be same");
+    }
+
     setState(() {
       isMessageLoading = false;
     });

@@ -50,7 +50,7 @@ class LastMessageBox extends StatelessWidget {
                   Text(displayName(lastMessageIcon.lastMessage.displayName),
                       style: GoogleFonts.montserrat(
                           textStyle: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.w600))),
                 ],

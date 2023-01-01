@@ -44,9 +44,6 @@ class _AuthState extends State<Auth> {
       }
 
     }
-    else{
-        showToast("!oops something went wronh");
-    }
     setState(() {
       isPageLoading = false;
     });

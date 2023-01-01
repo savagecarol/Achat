@@ -2,6 +2,7 @@ import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class MessageService {
   MessageService._();
@@ -11,33 +12,61 @@ class MessageService {
 
   Future<bool> postMessage(Message message) async {
     try {
-      DocumentReference documentReference =
-          await _firestore.collection('MESSAGE').doc();
-      await documentReference.set({
-        'sender': message.sender,
-        'receiver': message.receiver,
-        'senderPigeonId': message.senderPigeonId,
-        'receiverPigeonId': message.receiverPigeonId,
-        'message': message.message,
-        'isSeen': message.isSeen,
-        'time': message.time,
-        'seenTime': message.seenTime
-      });
+      if (message.receiverPigeonId != message.senderPigeonId) {
+        DocumentReference documentReference =
+            await _firestore.collection('MESSAGE').doc();
+        await documentReference.set({
+          'sender': message.sender,
+          'receiver': message.receiver,
+          'senderPigeonId': message.senderPigeonId,
+          'receiverPigeonId': message.receiverPigeonId,
+          'message': message.message,
+          'isSeen': message.isSeen,
+          'time': message.time,
+          'seenTime': message.seenTime
+        });
 
-      DocumentReference pigeonLastMessageReference = await _firestore
-          .collection('PIGEON')
-          .doc(message.senderPigeonId + message.receiverPigeonId);
-      await pigeonLastMessageReference.set({
-        'sender': message.sender,
-        'receiver': message.receiver,
-        'senderPigeonId': message.senderPigeonId,
-        'receiverPigeonId': message.receiverPigeonId,
-        'message': message.message,
-        'isSeen': message.isSeen,
-        'time': message.time,
-        'seenTime': message.seenTime
-      });
+        print(message.senderPigeonId);
+        print(message.receiverPigeonId);
 
+        await _firestore
+            .collection('PIGEON')
+            .doc(message.receiverPigeonId + message.senderPigeonId)
+            .get()
+            .then((docSnapshot) async {
+          if (docSnapshot.exists) {
+            DocumentReference pigeonLastMessageReference = await _firestore
+                .collection('PIGEON')
+                .doc(message.receiverPigeonId + message.senderPigeonId);
+            await pigeonLastMessageReference.set({
+              'sender': message.sender,
+              'receiver': message.receiver,
+              'senderPigeonId': message.senderPigeonId,
+              'receiverPigeonId': message.receiverPigeonId,
+              'message': message.message,
+              'isSeen': message.isSeen,
+              'time': message.time,
+              'seenTime': message.seenTime
+            });
+          } else {
+            DocumentReference pigeonLastMessageReference = await _firestore
+                .collection('PIGEON')
+                .doc(message.senderPigeonId + message.receiverPigeonId);
+            await pigeonLastMessageReference.set({
+              'sender': message.sender,
+              'receiver': message.receiver,
+              'senderPigeonId': message.senderPigeonId,
+              'receiverPigeonId': message.receiverPigeonId,
+              'message': message.message,
+              'isSeen': message.isSeen,
+              'time': message.time,
+              'seenTime': message.seenTime
+            });
+          }
+        });
+      }
+
+      FlutterRingtonePlayer.playNotification();
       return true;
     } catch (e) {
       return false;
@@ -51,11 +80,10 @@ class MessageService {
         .snapshots();
   }
 
-  List<MessageDirection> getSpecificMessage(
-      List<DocumentSnapshot> docList, int sender, int receiver) {
-    print(sender);
-    print(receiver);
+  List<MessageDirection> getSpecificMessage(List<DocumentSnapshot> docList,
+      int senderPigeonId, int receiverPigeonId) {
     List<MessageDirection> messages = [];
+
     for (int i = 0; i < docList.length; i++) {
       Message message = Message(
         sender: docList[i].get('sender').toString(),
@@ -66,11 +94,12 @@ class MessageService {
         message: docList[i].get('message'),
       );
 
-      if ((docList[i].get('senderPigeonId') == sender.toString() &&
-          docList[i].get('receiverPigeonId') == receiver.toString())) {
+      if ((docList[i].get('senderPigeonId') == senderPigeonId.toString() &&
+          docList[i].get('receiverPigeonId') == receiverPigeonId.toString())) {
         messages.add(MessageDirection(message: message, isLeft: false));
-      } else if (docList[i].get('senderPigeonId') == receiver.toString() &&
-          docList[i].get('receiverPigeonId') == sender.toString()) {
+      } else if (docList[i].get('senderPigeonId') ==
+              receiverPigeonId.toString() &&
+          docList[i].get('receiverPigeonId') == senderPigeonId.toString()) {
         messages.add(MessageDirection(message: message, isLeft: true));
       }
     }

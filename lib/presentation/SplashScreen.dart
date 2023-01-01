@@ -145,7 +145,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               );
             } else {
-              
               return ListView.builder(
                   itemCount: listDocument.length,
                   itemBuilder: (context, i) {

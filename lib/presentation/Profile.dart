@@ -2,10 +2,7 @@ import 'package:anonymous_chat/custom/CustomButton.dart';
 import 'package:anonymous_chat/presentation/About.dart';
 import 'package:anonymous_chat/presentation/Auth.dart';
 import 'package:anonymous_chat/utils/global.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
@@ -29,7 +26,8 @@ class _ProfileState extends State<Profile> {
     _isPageLoading();
   }
 
-  _isPageLoading() async {
+  _isPageLoading() async 
+  {
     phoneNumber = await preferenceService.getPhone();
     setState(() {
       isPageLoading = false;

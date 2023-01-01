@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:anonymous_chat/models/LastMessage.dart';
 import 'package:anonymous_chat/models/LastMessageIcon.dart';
 import 'package:anonymous_chat/utils/global.dart';
@@ -20,6 +22,7 @@ class PigeonService {
   List<LastMessageIcon> getListOfLastMessage(
       List<DocumentSnapshot> docList, String pigeonId, List<Contact> contacts) {
     List<LastMessageIcon> list = [];
+
     for (int i = 0; i < docList.length; i++) {
       LastMessage message = LastMessage(
         displayName: nameByPhoneNumber(docList[i].get('receiver'), contacts),
@@ -29,24 +32,38 @@ class PigeonService {
         receiverPigeonId: int.parse(docList[i].get('receiverPigeonId')),
       );
       message.seenTime == docList[i].get('seenTime');
-      LastMessageIcon lastMessageIcon = LastMessageIcon(lastMessage: message);
-      lastMessageIcon.isIcon = true;
-      list.add(lastMessageIcon);
+      if (docList[i].id.startsWith(pigeonId)) {
+        LastMessageIcon lastMessageIcon = LastMessageIcon(lastMessage: message);
+        lastMessageIcon.isIcon = true;
+        list.add(lastMessageIcon);
+      } else if (docList[i].id.endsWith(pigeonId)) {
+        String str = docList[i].id;
+        str = str.substring(0, str.length - pigeonId.length);
+
+        if(str == docList[i].get('receiverPigeonId'))
+           message.receiver = docList[i].get('receiver');
+        else  message.receiver = docList[i].get('sender');
+        
+        message.receiverPigeonId =
+            int.parse(str);
+        message.displayName = "pigeon#" + str;
+        LastMessageIcon lastMessageIcon = LastMessageIcon(lastMessage: message);
+        lastMessageIcon.isIcon = false;
+        list.add(lastMessageIcon);
+      }
     }
     return list;
   }
 
   String nameByPhoneNumber(String number, List<Contact> listContact) {
     for (int i = 0; i < listContact.length; i++) {
-      print(listContact[i].phones!.first.value);
       if (removeSpaceDashBracket(listContact[i].phones!.first.value) ==
               number ||
           removeSpaceDashBracket(listContact[i].phones!.first.value) ==
               number.substring(3, 13)) {
-    
         return listContact[i].displayName ?? number;
       }
     }
     return number;
-  } 
+  }
 }
