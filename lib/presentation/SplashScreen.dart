@@ -148,20 +148,20 @@ class _SplashScreenState extends State<SplashScreen> {
               
               return ListView.builder(
                   itemCount: listDocument.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, i) {
                     return GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ChatScreen(
-                        //           displayName: listDocument[i].,
-                        //           phoneNumber: listDocument[]phoneNumber,
-                        //           pigeonId: listDocument[i],
-                        //           userPigeonId: widget.pigeonId)),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen(
+                                  displayName: listDocument[i].lastMessage.displayName,
+                                  phoneNumber: listDocument[i].lastMessage.receiver,
+                                  pigeonId: listDocument[i].lastMessage.receiverPigeonId,
+                                  userPigeonId: int.parse(widget.pigeonId)),
+                        ));
                       },
-                      child: LastMessageBox(lastMessageIcon: listDocument[index]),
+                      child: LastMessageBox(lastMessageIcon: listDocument[i]),
                     );
                   });
             }

@@ -22,10 +22,12 @@ class PigeonService {
     List<LastMessageIcon> list = [];
     for (int i = 0; i < docList.length; i++) {
       LastMessage message = LastMessage(
-          displayName:
-              nameByPhoneNumber(docList[i].get('receiver'), contacts),
-          lastMessage: docList[i].get('message'),
-          timeStamp: DateTime.now());
+        displayName: nameByPhoneNumber(docList[i].get('receiver'), contacts),
+        lastMessage: docList[i].get('message'),
+        time: docList[i].get('time').toDate(),
+        receiver: docList[i].get('receiver'),
+        receiverPigeonId: int.parse(docList[i].get('receiverPigeonId')),
+      );
       message.seenTime == docList[i].get('seenTime');
       LastMessageIcon lastMessageIcon = LastMessageIcon(lastMessage: message);
       lastMessageIcon.isIcon = true;
@@ -36,11 +38,13 @@ class PigeonService {
 
   String nameByPhoneNumber(String number, List<Contact> listContact) {
     for (int i = 0; i < listContact.length; i++) {
+      print(listContact[i].phones!.first.value);
       if (removeSpaceDashBracket(listContact[i].phones!.first.value) ==
               number ||
           removeSpaceDashBracket(listContact[i].phones!.first.value) ==
               number.substring(3, 13)) {
-        return listContact[i].displayName?? number;
+    
+        return listContact[i].displayName ?? number;
       }
     }
     return number;

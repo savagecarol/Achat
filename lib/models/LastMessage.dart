@@ -1,11 +1,15 @@
 class LastMessage {
   String displayName;
   String lastMessage;
-  DateTime timeStamp;
+  DateTime time;
   DateTime? seenTime;
+  int receiverPigeonId;
+  String receiver;
 
   LastMessage(
       {required this.displayName,
       required this.lastMessage,
-      required this.timeStamp});
+      required this.time,
+      required this.receiverPigeonId,
+      required this.receiver});
 }

@@ -44,16 +44,17 @@ class MessageService {
     }
   }
 
-  Stream<dynamic> getStream(int senderPigeonId, int receiverPigeonId) {
-    return _firestore.collection('MESSAGE').where('senderPigeonId', whereIn: [
-      senderPigeonId.toString(),
-      receiverPigeonId.toString()
-    ]).snapshots();
+  Stream<dynamic> getStream() {
+    return _firestore
+        .collection('MESSAGE')
+        .orderBy('time', descending: true)
+        .snapshots();
   }
 
   List<MessageDirection> getSpecificMessage(
       List<DocumentSnapshot> docList, int sender, int receiver) {
-    print(docList);
+    print(sender);
+    print(receiver);
     List<MessageDirection> messages = [];
     for (int i = 0; i < docList.length; i++) {
       Message message = Message(
@@ -64,10 +65,7 @@ class MessageService {
         isSeen: docList[i].get('isSeen'),
         message: docList[i].get('message'),
       );
-      message.time == docList[i].get('time');
-      message.seenTime == docList[i].get('seenTime');
-      messages.add(MessageDirection(message: message, isLeft: true));
-      
+
       if ((docList[i].get('senderPigeonId') == sender.toString() &&
           docList[i].get('receiverPigeonId') == receiver.toString())) {
         messages.add(MessageDirection(message: message, isLeft: false));
