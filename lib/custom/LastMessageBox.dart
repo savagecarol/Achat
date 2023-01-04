@@ -20,20 +20,13 @@ class LastMessageBox extends StatelessWidget {
             bottom: BorderSide(width: 2, color: Colors.grey.shade200),
           ),
         ),  
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  lastMessageIcon.isIcon
+              lastMessageIcon.isIcon
                       ? Container(
-                          height: 32,
-                          width: 32,
+                          height: 42,
+                          width: 42,
                           margin: const EdgeInsets.only(right: 8),
                           decoration: BoxDecoration(
                               color: randomcolor(), shape: BoxShape.circle),
@@ -46,33 +39,49 @@ class LastMessageBox extends StatelessWidget {
                                         fontWeight: FontWeight.bold))),
                           ),
                         )
-                      : Container(),
-                  Text(displayName(lastMessageIcon.lastMessage.displayName),
-                      style: GoogleFonts.montserrat(
+                      : Container()
+              ,
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: Text(displayName(lastMessageIcon.lastMessage.displayName),
+                          style: GoogleFonts.montserrat(
+                              textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600))),
+                    ),
+              
+                                      const SizedBox(height: 4,),
+                  Text(lastMessageIcon.lastMessage.lastMessage,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.montserrat(
+                    textStyle: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400))),
+                  ],
+                ),
+              ),
+              
+                   Column(
+                     children: [
+                       Text(showTime(lastMessageIcon.lastMessage.time),
+                  style: GoogleFonts.montserrat(
                           textStyle: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.w600))),
-                ],
-              ),
-              Text(showTime(lastMessageIcon.lastMessage.time),
-                  style: GoogleFonts.montserrat(
-                      textStyle: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600))),
+                      
+                    Container(height: 24,)
+                     ],
+                   ),
             ],
           ),
-          const SizedBox(height: 8,),
-          Text(lastMessageIcon.lastMessage.lastMessage,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400))),
-        ],
-      ),
     );
   }
 }

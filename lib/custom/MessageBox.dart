@@ -9,7 +9,7 @@ class MessageBox extends StatelessWidget {
   MessageBox({super.key, required this.messageDirection});
   @override
   Widget build(BuildContext context) {
-    Radius r = Radius.circular(10);
+    Radius r = Radius.circular(8);
     return 
     (messageDirection.isLeft)?
     Row(
@@ -17,7 +17,7 @@ class MessageBox extends StatelessWidget {
       children: [
         Flexible(
           child: Container(
-            margin: const EdgeInsets.only(bottom: 8 , top: 8 , left: 16 , right: 64),
+            margin: const EdgeInsets.only(bottom: 4 , top: 4 , left: 16 , right: 64),
             decoration: BoxDecoration(
               color: randomcolor(),
                 borderRadius: BorderRadius.only(bottomRight: r ,
@@ -25,7 +25,7 @@ class MessageBox extends StatelessWidget {
                 topLeft: r,),
                ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+           padding: const EdgeInsets.symmetric(vertical: 12 , horizontal: 16),
               child: Text(messageDirection.message.message,
                   style: GoogleFonts.montserrat(
                       textStyle: const TextStyle(
@@ -43,7 +43,7 @@ class MessageBox extends StatelessWidget {
       children: [
         Flexible(
           child: Container(
-            margin: const EdgeInsets.only(bottom: 8 , top: 8 , left: 64 , right: 16),
+            margin: const EdgeInsets.only(bottom: 4 , top: 4 , left: 64 , right: 16),
             decoration: BoxDecoration(
               color: randomcolor(),
                 borderRadius: BorderRadius.only(bottomLeft: r ,
@@ -51,7 +51,7 @@ class MessageBox extends StatelessWidget {
                 topLeft: r,),
                ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 12 , horizontal: 16),
               child: Text(messageDirection.message.message,
                   style: GoogleFonts.montserrat(
                       textStyle: const TextStyle(

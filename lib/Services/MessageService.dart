@@ -63,10 +63,10 @@ class MessageService {
       }
 
       AssetsAudioPlayer.newPlayer().open(
-          Audio("assets/audios/song1.mp3"),
+          Audio("assets/music/tone.mp3"),
           showNotification: true,
       );
-      
+
     print("sakdaskl");
       return true;
     } catch (e) {
