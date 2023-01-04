@@ -1,7 +1,9 @@
 import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageService {
   MessageService._();
   factory MessageService.getInstance() => _instance;
@@ -59,6 +61,13 @@ class MessageService {
           }
         });
       }
+
+      AssetsAudioPlayer.newPlayer().open(
+          Audio("assets/audios/song1.mp3"),
+          showNotification: true,
+      );
+      
+    print("sakdaskl");
       return true;
     } catch (e) {
       return false;
