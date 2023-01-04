@@ -63,11 +63,11 @@ class MessageService {
       }
 
       AssetsAudioPlayer.newPlayer().open(
-          Audio("assets/music/tone.mp3"),
-          showNotification: true,
+        Audio("assets/music/tone.mp3"),
+        showNotification: true,
       );
 
-    print("sakdaskl");
+      print("sakdaskl");
       return true;
     } catch (e) {
       return false;
@@ -94,6 +94,7 @@ class MessageService {
         isSeen: docList[i].get('isSeen'),
         message: docList[i].get('message'),
       );
+      message.time = docList[i].get('time').toDate();
 
       if ((docList[i].get('senderPigeonId') == senderPigeonId.toString() &&
           docList[i].get('receiverPigeonId') == receiverPigeonId.toString())) {

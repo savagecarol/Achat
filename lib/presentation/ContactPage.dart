@@ -112,7 +112,6 @@ class _ContactPageState extends State<ContactPage> {
         if (value != "") {
           AppUser a = await authService.creatUnverifiedUser(value);
           int userPigeonId = int.parse(await preferenceService.getPigeonId());
-
           if (a.pigeonId != null) {
             Navigator.pop(context);
             Navigator.push(
@@ -125,7 +124,7 @@ class _ContactPageState extends State<ContactPage> {
                       userPigeonId: userPigeonId)),
             );
           }
-          
+
         } else {
           showToast("!oops Something Went Wrong");
         }
@@ -143,7 +142,7 @@ class _ContactPageState extends State<ContactPage> {
                   width: 32,
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
-                      color: randomcolor(), shape: BoxShape.circle),
+                      color: Colors.black, shape: BoxShape.circle),
                   child: Center(
                     child: Text(exsistContact.contactNumber.name[0],
                         style: GoogleFonts.montserrat(
@@ -173,7 +172,7 @@ class _ContactPageState extends State<ContactPage> {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

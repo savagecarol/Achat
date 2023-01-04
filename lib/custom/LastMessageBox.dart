@@ -29,7 +29,7 @@ class LastMessageBox extends StatelessWidget {
                           width: 42,
                           margin: const EdgeInsets.only(right: 8),
                           decoration: BoxDecoration(
-                              color: randomcolor(), shape: BoxShape.circle),
+                              color: Colors.black, shape: BoxShape.circle),
                           child: Center(
                             child: Text(lastMessageIcon.lastMessage.displayName[0],
                                 style: GoogleFonts.montserrat(
@@ -67,7 +67,6 @@ class LastMessageBox extends StatelessWidget {
                   ],
                 ),
               ),
-              
                    Column(
                      children: [
                        Text(showTime(lastMessageIcon.lastMessage.time),

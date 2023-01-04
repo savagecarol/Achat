@@ -26,7 +26,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   // String message = "";
-  final TextEditingController _messageController = TextEditingController(text : "");
+  final TextEditingController _messageController =
+      TextEditingController(text: "");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,8 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       reverse: true,
                       itemCount: listDocument.length,
                       itemBuilder: (context, index) {
-                        return MessageBox(
-                            messageDirection: listDocument[index]);
+                        return MessageBox(messageDirection: listDocument[index]);
                       });
                 }
               } else {
