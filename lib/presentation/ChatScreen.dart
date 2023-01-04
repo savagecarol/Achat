@@ -25,7 +25,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  String message = "";
+  // String message = "";
+  final TextEditingController _messageController = TextEditingController(text : "");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,12 +128,11 @@ class _ChatScreenState extends State<ChatScreen> {
               children: <Widget>[
                 Expanded(
                   child: CustomTextField(
+                      textEditingController: _messageController,
                       hintText: "Write Message ...",
+                      initialValue: "",
                       hintTextSize: 16,
-                      initialValue: message,
-                      onChanged: (value) {
-                        message = value!;
-                      },
+                      onChanged: (value) {},
                       maxLine: MAX_INT,
                       onSaved: () {},
                       validator: () {}),
@@ -144,19 +144,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: _postMessage,
                     backgroundColor: Colors.black,
                     elevation: 0,
-                    child: isMessageLoading
-                        ? Container(
-                            height: 16.h,
-                            width: 16.w,
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : Icon(
-                            Icons.send_rounded,
-                            color: Colors.white,
-                            size: 18.h,
-                          ),
+                    child: Icon(
+                      Icons.send_rounded,
+                      color: Colors.white,
+                      size: 18.h,
+                    ),
                   ),
                 ),
               ],
@@ -174,6 +166,11 @@ class _ChatScreenState extends State<ChatScreen> {
       isMessageLoading = true;
     });
 
+    if (_messageController.text.isEmpty) {
+      showToast("!Please type something");
+      return;
+    }
+
     String sender = await preferenceService.getPhone();
     String receiver = widget.phoneNumber;
     String senderPigeonId = await preferenceService.getPigeonId();
@@ -182,7 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
     Message postMessage = Message(
         sender: sender,
         receiver: receiver,
-        message: message,
+        message: _messageController.text,
         senderPigeonId: senderPigeonId,
         receiverPigeonId: receiverPigeonId);
     postMessage.seenTime = postMessage.time;
@@ -191,26 +188,12 @@ class _ChatScreenState extends State<ChatScreen> {
       if (!await messageService.postMessage(postMessage)) {
         showToast("!oops something went wrong");
       }
+    } else {
+      showToast("!sender and receiver cannot be same");
     }
-    else{
-        showToast("!sender and receiver cannot be same");
-    }
-
     setState(() {
       isMessageLoading = false;
+      _messageController.text = "";
     });
-
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ChatScreen(
-              displayName: widget.displayName,
-              phoneNumber: widget.phoneNumber,
-              pigeonId: widget.pigeonId,
-              userPigeonId: widget.userPigeonId)),
-    );
   }
 }

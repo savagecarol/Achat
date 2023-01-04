@@ -21,9 +21,11 @@ class CustomTextField extends StatelessWidget {
   final Color cursorColor;
   final bool expand;
   final int? maxLength;
+  final TextEditingController? textEditingController;
 
   CustomTextField(
-      {required this.hintText,
+      {this.textEditingController,
+        required this.hintText,
       this.maxLength,
       this.preIconSize = 30,
       this.hintTextSize = 16,
@@ -45,7 +47,13 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return 
+    
+    
+    
+    
+    
+    Padding(
         padding: EdgeInsets.symmetric(horizontal: padding),
         child: Container(
           decoration: BoxDecoration(
@@ -56,8 +64,42 @@ class CustomTextField extends StatelessWidget {
             padding: (isPrefixIcon)
                 ? const EdgeInsets.all(0)
                 : const EdgeInsets.only(left: 16),
-            child: TextFormField(
-              
+            child: (textEditingController !=null)
+
+            ?
+              TextFormField(
+              controller: textEditingController,
+              maxLength: maxLength,
+              obscureText: obscureText,
+              cursorColor: cursorColor,
+              minLines: minLine,
+              maxLines: maxLine,
+              onSaved: onSaved(),
+              onChanged: onChanged,
+              keyboardType: textInputType,
+              style: const TextStyle(fontSize: 16, color: Colors.black),
+              decoration: InputDecoration(
+                counterText: "",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: InputBorder.none,
+                hintText: hintText,
+                labelStyle: GoogleFonts.montserrat(
+                    textStyle:
+                        const TextStyle(fontSize: 16, color: Colors.black)),
+                prefixIcon: isPrefixIcon
+                    ? Icon(
+                        icon,
+                        color: Colors.black,
+                        size: preIconSize,
+                      )
+                    : null,
+                hintStyle: GoogleFonts.montserrat(
+                    textStyle:
+                        const TextStyle(fontSize: 16, color: Colors.black)),
+              ),
+            ) :
+            
+             TextFormField(
               maxLength: maxLength,
               obscureText: obscureText,
               cursorColor: cursorColor,
@@ -89,6 +131,12 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
           ),
+          
         ));
+  
+  
+  
+  
+  
   }
 }

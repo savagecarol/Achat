@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:anonymous_chat/models/ExsistContact.dart';
 import 'package:anonymous_chat/models/LastMessage.dart';
 import 'package:anonymous_chat/models/LastMessageIcon.dart';
 import 'package:anonymous_chat/utils/global.dart';
@@ -19,13 +20,14 @@ class PigeonService {
         .snapshots();
   }
 
-  List<LastMessageIcon> getListOfLastMessage(
-      List<DocumentSnapshot> docList, String pigeonId, List<Contact> contacts) {
+  List<LastMessageIcon> getListOfLastMessage(List<DocumentSnapshot> docList,
+      String pigeonId, List<ExsistContact> eList) {
+    print(eList);
     List<LastMessageIcon> list = [];
 
     for (int i = 0; i < docList.length; i++) {
       LastMessage message = LastMessage(
-        displayName: nameByPhoneNumber(docList[i].get('receiver'), contacts),
+        displayName: nameByPhoneNumber(docList[i].get('receiver'), eList),
         lastMessage: docList[i].get('message'),
         time: docList[i].get('time').toDate(),
         receiver: docList[i].get('receiver'),
@@ -40,12 +42,12 @@ class PigeonService {
         String str = docList[i].id;
         str = str.substring(0, str.length - pigeonId.length);
 
-        if(str == docList[i].get('receiverPigeonId'))
-           message.receiver = docList[i].get('receiver');
-        else  message.receiver = docList[i].get('sender');
-        
-        message.receiverPigeonId =
-            int.parse(str);
+        if (str == docList[i].get('receiverPigeonId'))
+          message.receiver = docList[i].get('receiver');
+        else
+          message.receiver = docList[i].get('sender');
+
+        message.receiverPigeonId = int.parse(str);
         message.displayName = "pigeon#" + str;
         LastMessageIcon lastMessageIcon = LastMessageIcon(lastMessage: message);
         lastMessageIcon.isIcon = false;
@@ -55,15 +57,12 @@ class PigeonService {
     return list;
   }
 
-  String nameByPhoneNumber(String number, List<Contact> listContact) {
+  String nameByPhoneNumber(String number, List<ExsistContact> listContact) {
     for (int i = 0; i < listContact.length; i++) {
-      if (removeSpaceDashBracket(listContact[i].phones!.first.value) ==
-              number ||
-          removeSpaceDashBracket(listContact[i].phones!.first.value) ==
-              number.substring(3, 13)) {
-        return listContact[i].displayName ?? number;
+      if (listContact[i].contactNumber.number == number) {
+        return listContact[i].contactNumber.name;
       }
     }
-    return number;
+    return "gukj";
   }
 }

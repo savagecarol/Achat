@@ -28,10 +28,10 @@ class _ContactPageState extends State<ContactPage> {
   Future<void> _fetchContacts() async {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
-      final contacts = await ContactsService.getContacts();
-      exsistContactList =
-          await contactService.getAllActiveUserByContactList(contacts);
-      setState(() => _contacts = contacts);
+      var contacts = await ContactsService.getContacts();
+      
+      var list = await contactService.getAllActiveUserByContactList(contacts);
+      setState(() => exsistContactList = list);
     } else {
       _permissionDenied = true;
     }
@@ -68,12 +68,13 @@ class _ContactPageState extends State<ContactPage> {
         ],
       );
     }
-    if (_contacts == null) {
+
+    if (exsistContactList.isEmpty) {
       return const Center(
           child: CircularProgressIndicator(color: Colors.black));
     }
 
-    return (_contacts == null)
+    return (exsistContactList.isEmpty)
         ? Column(
             children: [
               const SizedBox(height: 128),
@@ -107,24 +108,24 @@ class _ContactPageState extends State<ContactPage> {
   Widget _contactWidget(ExsistContact exsistContact) {
     return InkWell(
       onTap: () async {
-        String value = removeSpaceDashBracket(exsistContact.contact.phones!.first.value);
+        String value = exsistContact.contactNumber.number;
         if (value != "") {
-          AppUser a = await authService.creatUnverifiedUser(value); 
-          int userPigeonId =  int.parse(await preferenceService.getPigeonId());
-          
+          AppUser a = await authService.creatUnverifiedUser(value);
+          int userPigeonId = int.parse(await preferenceService.getPigeonId());
+
           if (a.pigeonId != null) {
             Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ChatScreen(
-                        displayName: exsistContact.contact.displayName!,
-                        phoneNumber: a.phoneNumber!,
-                        pigeonId: a.pigeonId!,
-                        userPigeonId: userPigeonId
-                      )),
+                      displayName: exsistContact.contactNumber.name,
+                      phoneNumber: a.phoneNumber!,
+                      pigeonId: a.pigeonId!,
+                      userPigeonId: userPigeonId)),
             );
           }
+          
         } else {
           showToast("!oops Something Went Wrong");
         }
@@ -144,7 +145,7 @@ class _ContactPageState extends State<ContactPage> {
                   decoration: BoxDecoration(
                       color: randomcolor(), shape: BoxShape.circle),
                   child: Center(
-                    child: Text(exsistContact.contact.displayName![0],
+                    child: Text(exsistContact.contactNumber.name[0],
                         style: GoogleFonts.montserrat(
                             textStyle: const TextStyle(
                                 fontSize: 16,
@@ -152,7 +153,7 @@ class _ContactPageState extends State<ContactPage> {
                                 fontWeight: FontWeight.bold))),
                   ),
                 ),
-                Text(displayName(exsistContact.contact.displayName!),
+                Text(displayName(exsistContact.contactNumber.name ),
                     style: GoogleFonts.montserrat(
                         textStyle: const TextStyle(
                             fontSize: 16,

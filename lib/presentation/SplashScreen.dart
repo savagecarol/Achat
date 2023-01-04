@@ -1,6 +1,5 @@
-import 'package:anonymous_chat/Services/PigeonService.dart';
 import 'package:anonymous_chat/custom/LastMessageBox.dart';
-import 'package:anonymous_chat/models/LastMessage.dart';
+import 'package:anonymous_chat/models/ExsistContact.dart';
 import 'package:anonymous_chat/models/LastMessageIcon.dart';
 import 'package:anonymous_chat/presentation/ChatScreen.dart';
 import 'package:anonymous_chat/presentation/ContactPage.dart';
@@ -22,13 +21,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _splash = true;
-  List<Contact> _contacts = [];
+  bool isLoading = true;
+  List<Contact>? _contacts;
+  List<ExsistContact> exsistContactList = [];
   bool _permissionDenied = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _fetchContacts();
   }
@@ -36,8 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _fetchContacts() async {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
-      final contacts = await ContactsService.getContacts();
-      setState(() => _contacts = contacts);
+      var contacts = await ContactsService.getContacts();
+      var list = await contactService.getAllActiveUserByContactList(contacts);
+      exsistContactList = list;
+      setState(() => isLoading = false);
     } else {
       _permissionDenied = true;
     }
@@ -59,7 +60,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return ScreenUtilInit(builder: ((context, child) {
       return Scaffold(
         backgroundColor: Colors.white,
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: 
+        
+        
+       isLoading ? Container()
+       : FloatingActionButton(
           backgroundColor: Colors.black,
           child: const Icon(Icons.message),
           onPressed: () {
@@ -68,15 +73,24 @@ class _SplashScreenState extends State<SplashScreen> {
               MaterialPageRoute(builder: (context) => const ContactPage()),
             );
           },
-        ),
+        )
+        
+        
+        ,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
           title: _appBarWidget(),
         ),
-        body: Column(
-          children: [const SizedBox(height: 16), _screen1()],
-        ),
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              )
+            : Column(
+                children: [const SizedBox(height: 16), _screen1()],
+              ),
       );
     }));
   }
@@ -123,7 +137,9 @@ class _SplashScreenState extends State<SplashScreen> {
         stream: pigeonService.getStream(widget.pigeonId),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            List<LastMessageIcon> listDocument = pigeonService.getListOfLastMessage(snapshot.data.docs, widget.pigeonId , _contacts);
+            List<LastMessageIcon> listDocument =
+                pigeonService.getListOfLastMessage(
+                    snapshot.data.docs, widget.pigeonId, exsistContactList);
             if (listDocument.isEmpty) {
               return SingleChildScrollView(
                 child: Column(
@@ -151,70 +167,49 @@ class _SplashScreenState extends State<SplashScreen> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => ChatScreen(
-                                  displayName: listDocument[i].lastMessage.displayName,
-                                  phoneNumber: listDocument[i].lastMessage.receiver,
-                                  pigeonId: listDocument[i].lastMessage.receiverPigeonId,
+                                  displayName:
+                                      listDocument[i].lastMessage.displayName,
+                                  phoneNumber:
+                                      listDocument[i].lastMessage.receiver,
+                                  pigeonId: listDocument[i]
+                                      .lastMessage
+                                      .receiverPigeonId,
                                   userPigeonId: int.parse(widget.pigeonId)),
-                        ));
+                            ));
                       },
                       child: LastMessageBox(lastMessageIcon: listDocument[i]),
                     );
                   });
             }
-          } else {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 128),
-                  Container(
-                      height: 200.h,
-                      child: SvgPicture.asset("assets/images/no_data.svg")),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Text("Send your first secret message",
-                      style: GoogleFonts.montserrat(
-                          textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600)))
-                ],
-              ),
-            );
           }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 128),
+                Container(
+                    height: 200.h,
+                    child: SvgPicture.asset("assets/images/no_data.svg")),
+                const SizedBox(
+                  height: 32,
+                ),
+                Text("Permission Denied",
+                    style: GoogleFonts.montserrat(
+                        textStyle: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600)))
+              ],
+            ),
+          );
         }),
       ),
     );
   }
 
   Widget _screen1() {
-    if (_permissionDenied) {
-      return Column(
-        children: [
-          const SizedBox(height: 128),
-          SizedBox(
-              height: 256,
-              child: SvgPicture.asset("assets/images/no_data.svg")),
-          const SizedBox(
-            height: 32,
-          ),
-          Text("Permission Denied",
-              style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700)))
-        ],
-      );
-    }
-    if (_contacts == null) {
-      return const Center(
-          child: CircularProgressIndicator(color: Colors.black));
-    }
-
-   return _streamBuilderWidget();
+    return _streamBuilderWidget();
   }
 }

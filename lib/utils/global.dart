@@ -69,6 +69,12 @@ String? phoneRegex(String phone) {
 String checkStartPhoneNumber(String phone) {
   if (phone.startsWith("+91")) {
     return phone;
+  }
+  if (phone.length == 11 && phone.startsWith("0")) {
+    return "+91${phone.substring(1, 11)}";
+  }
+  if (phone.length == 12) {
+    return "+$phone";
   } else {
     return "+91$phone";
   }
@@ -79,15 +85,12 @@ String removeSpaceDashBracket(String? phone) {
     showToast("!!Oops Something went Wrong");
     return "";
   } else {
-    String x="";
-    for (int i = 0; i < phone.length; i++) 
-    {
-      if(double.tryParse(phone[i]) != null )  {
-        x = x+phone[i];
+    String x = "";
+    for (int i = 0; i < phone.length; i++) {
+      if (double.tryParse(phone[i]) != null) {
+        x = x + phone[i];
       }
     }
     return x;
   }
 }
-
-

@@ -2,8 +2,6 @@ import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-
 class MessageService {
   MessageService._();
   factory MessageService.getInstance() => _instance;
@@ -25,10 +23,6 @@ class MessageService {
           'time': message.time,
           'seenTime': message.seenTime
         });
-
-        print(message.senderPigeonId);
-        print(message.receiverPigeonId);
-
         await _firestore
             .collection('PIGEON')
             .doc(message.receiverPigeonId + message.senderPigeonId)
@@ -65,8 +59,6 @@ class MessageService {
           }
         });
       }
-
-      FlutterRingtonePlayer.playNotification();
       return true;
     } catch (e) {
       return false;
