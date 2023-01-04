@@ -5,6 +5,7 @@ import 'package:anonymous_chat/Services/ContactService.dart';
 import 'package:anonymous_chat/Services/MessageService.dart';
 import 'package:anonymous_chat/Services/PigeonService.dart';
 import 'package:anonymous_chat/Services/PreferenceService.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -14,6 +15,7 @@ final ContactService contactService = ContactService.getInstance();
 final PreferenceService preferenceService = PreferenceService.getInstance();
 final MessageService messageService = MessageService.getInstance();
 final PigeonService pigeonService = PigeonService.getInstance();
+final FirebaseMessaging messaging = FirebaseMessaging.instance;
 final MAX_INT = 4294967296;
 
 Color accentPurpleColor = Color(0xFF6A53A1);

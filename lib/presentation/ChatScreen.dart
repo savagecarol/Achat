@@ -2,7 +2,9 @@ import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/custom/MessageBox.dart';
 import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
+import 'package:anonymous_chat/models/PushNotification.dart';
 import 'package:anonymous_chat/utils/global.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,7 +27,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // String message = "";
   final TextEditingController _messageController =
       TextEditingController(text: "");
   @override
@@ -96,7 +97,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       reverse: true,
                       itemCount: listDocument.length,
                       itemBuilder: (context, index) {
-                        return MessageBox(messageDirection: listDocument[index]);
+                        return MessageBox(
+                            messageDirection: listDocument[index]);
                       });
                 }
               } else {
@@ -159,6 +161,12 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    messageService.updateMessage(widget.userPigeonId, widget.pigeonId);
+  }
+
   bool isMessageLoading = false;
 
   _postMessage() async {
@@ -197,3 +205,4 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 }
+

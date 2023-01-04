@@ -22,7 +22,6 @@ class PigeonService {
 
   List<LastMessageIcon> getListOfLastMessage(List<DocumentSnapshot> docList,
       String pigeonId, List<ExsistContact> eList) {
-    print(eList);
     List<LastMessageIcon> list = [];
 
     for (int i = 0; i < docList.length; i++) {
@@ -63,6 +62,8 @@ class PigeonService {
         return listContact[i].contactNumber.name;
       }
     }
-    return "gukj";
+    return number;
   }
+
+
 }

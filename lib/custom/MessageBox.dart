@@ -52,17 +52,15 @@ class MessageBox extends StatelessWidget {
         ],
       ),
     ):
-    
     Container(
         margin: const EdgeInsets.only(bottom: 4 , top: 4 , left: 64 , right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-        if(messageDirection.message.isSeen==true) 
+        if(messageDirection.message.isSeen) 
           Container(
             margin: const EdgeInsets.only(right: 4),
             child: const Icon(Icons.check , size: 16, color: Colors.teal)),
-
           Container(
               margin: const EdgeInsets.only(right: 4),
             child: Text(showTime(messageDirection.message.time),

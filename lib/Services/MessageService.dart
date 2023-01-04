@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
 import 'package:anonymous_chat/utils/global.dart';
@@ -106,5 +108,21 @@ class MessageService {
       }
     }
     return messages;
+  }
+
+  updateMessage(int senderPigeonId, int receiverPigeonId) async {
+    var x = await _firestore
+        .collection('MESSAGE')
+        .where('receiverPigeonId', isEqualTo: senderPigeonId.toString())
+        .where('senderPigeonId', isEqualTo: receiverPigeonId.toString())
+        .where('isSeen', isEqualTo: false)
+        .get();
+    var r = x.docs.toList();
+    for (int i = 0; i < r.length; i++) {
+      DocumentReference documentReference =
+          await _firestore.collection('MESSAGE').doc(r[i].id);
+      await documentReference
+          .update({'isSeen': true, 'seenTime': DateTime.now()});
+    }
   }
 }
