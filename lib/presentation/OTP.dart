@@ -27,10 +27,14 @@ class _OTPState extends State<OTP> {
       if (await preferenceService.getUID() != "") {
         await authService.createVerifiedUser();
         String pigeonId = await preferenceService.getPigeonId();
+        await notificationService.getFcmToken(pigeonId);
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SplashScreen(pigeonId: pigeonId,)),
+          MaterialPageRoute(
+              builder: (context) => SplashScreen(
+                    pigeonId: pigeonId,
+                  )),
         );
       } else {
         showToast("!!oops Something Went Wrong");

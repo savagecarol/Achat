@@ -69,6 +69,8 @@ class MessageService {
         showNotification: true,
       );
 
+      notificationService.sendPushMessage(message);
+
       print("sakdaskl");
       return true;
     } catch (e) {
@@ -76,7 +78,7 @@ class MessageService {
     }
   }
 
-  Stream<dynamic> getStream() {
+  Stream<dynamic> getStream(int senderPigeonId, int receiverPigeonId) {
     return _firestore
         .collection('MESSAGE')
         .orderBy('time', descending: true)
@@ -123,6 +125,42 @@ class MessageService {
           await _firestore.collection('MESSAGE').doc(r[i].id);
       await documentReference
           .update({'isSeen': true, 'seenTime': DateTime.now()});
+    }
+    updateLastMessage(senderPigeonId, receiverPigeonId);
+  }
+
+  Future<void> updateLastMessage(
+      int senderPigeonId, int receiverPigeonId) async {
+    try {
+      DocumentReference sender = await _firestore
+          .collection('PIGEON')
+          .doc(receiverPigeonId.toString() + senderPigeonId.toString());
+
+      DocumentReference receiver = await _firestore
+          .collection('PIGEON')
+          .doc(senderPigeonId.toString() + receiverPigeonId.toString() );
+
+      await sender.get().then((value) async {
+        if (value.exists) {
+          if (value.get('receiverPigeonId') == senderPigeonId.toString() &&
+              value.get('senderPigeonId') == receiverPigeonId.toString()
+              && value.get('isSeen') == false) {
+            sender.update({'isSeen': true, 'seenTime': DateTime.now()});
+          }
+        }
+      });
+
+      await receiver.get().then((value) async {
+        if (value.exists) {
+          if (value.get('receiverPigeonId') == senderPigeonId.toString() &&
+              value.get('senderPigeonId') == receiverPigeonId.toString()
+               && value.get('isSeen') == false) {
+            receiver.update({'isSeen': true, 'seenTime': DateTime.now()});
+          }
+        }
+      });
+    } catch (e) {
+      return;
     }
   }
 }

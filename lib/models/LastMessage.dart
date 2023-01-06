@@ -5,6 +5,7 @@ class LastMessage {
   DateTime? seenTime;
   int receiverPigeonId;
   String receiver;
+  bool? isSeen;
 
   LastMessage(
       {required this.displayName,

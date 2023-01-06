@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/custom/MessageBox.dart';
 import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
-import 'package:anonymous_chat/models/PushNotification.dart';
 import 'package:anonymous_chat/utils/global.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -65,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
               child: StreamBuilder(
-            stream: messageService.getStream(),
+            stream: messageService.getStream(widget.userPigeonId, widget.pigeonId),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
                 List<MessageDirection> listDocument =
@@ -164,7 +164,10 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    messageService.updateMessage(widget.userPigeonId, widget.pigeonId);
+     Timer.periodic(Duration(seconds: 5), (Timer t) 
+     {    messageService.updateMessage(widget.userPigeonId, widget.pigeonId);
+     });
+ 
   }
 
   bool isMessageLoading = false;

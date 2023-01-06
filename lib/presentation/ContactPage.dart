@@ -23,6 +23,7 @@ class _ContactPageState extends State<ContactPage> {
   void initState() {
     super.initState();
     _fetchContacts();
+    
   }
 
   Future<void> _fetchContacts() async {
@@ -141,7 +142,7 @@ class _ContactPageState extends State<ContactPage> {
                   height: 32,
                   width: 32,
                   margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.black, shape: BoxShape.circle),
                   child: Center(
                     child: Text(exsistContact.contactNumber.name[0],

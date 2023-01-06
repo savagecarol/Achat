@@ -60,23 +60,19 @@ class _SplashScreenState extends State<SplashScreen> {
     return ScreenUtilInit(builder: ((context, child) {
       return Scaffold(
         backgroundColor: Colors.white,
-        floatingActionButton: 
-        
-        
-       isLoading ? Container()
-       : FloatingActionButton(
-          backgroundColor: Colors.black,
-          child: const Icon(Icons.message),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ContactPage()),
-            );
-          },
-        )
-        
-        
-        ,
+        floatingActionButton: isLoading
+            ? Container()
+            : FloatingActionButton(
+                backgroundColor: Colors.black,
+                child: const Icon(Icons.message),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ContactPage()),
+                  );
+                },
+              ),
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,

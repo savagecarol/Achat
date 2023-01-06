@@ -19,7 +19,7 @@ Future<void> main() async {
   options: DefaultFirebaseOptions.currentPlatform,
 );
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
