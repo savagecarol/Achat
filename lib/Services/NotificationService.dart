@@ -23,8 +23,11 @@ class NotificationService {
 
   void sendPushMessage(Message message) async {
     try {
-      DocumentSnapshot x =
-          await _firestore.collection('FCM').doc(message.receiverPigeonId).get();
+      print("DSFdsf");
+      DocumentSnapshot x = await _firestore
+          .collection('FCM')
+          .doc(message.receiverPigeonId)
+          .get();
       String? token = x.get('token');
       if (token != null) {
         var response =
