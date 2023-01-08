@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class ContactService {
+  
   ContactService._();
   factory ContactService.getInstance() => _instance;
   static final ContactService _instance = ContactService._();
@@ -53,4 +54,5 @@ class ContactService {
     }
     return exsistContactList;
   }
+
 }

@@ -161,8 +161,15 @@ class _SplashScreenState extends State<SplashScreen> {
                   itemCount: listDocument.length,
                   itemBuilder: (context, i) {
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        if (await blockService.getBlockCombination(widget.pigeonId , listDocument[i]
+                                      .lastMessage
+                                      .receiverPigeonId.toString())) {
+                          showToast("Blocked!!");
+                        }
+                        else
+                        {
+                             Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ChatScreen(
@@ -175,6 +182,9 @@ class _SplashScreenState extends State<SplashScreen> {
                                       .receiverPigeonId,
                                   userPigeonId: int.parse(widget.pigeonId)),
                             ));
+                        }
+
+
                       },
                       child: LastMessageBox(lastMessageIcon: listDocument[i]),
                     );

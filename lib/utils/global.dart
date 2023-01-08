@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:anonymous_chat/Services/AuthService.dart';
+import 'package:anonymous_chat/Services/BlockService.dart';
 import 'package:anonymous_chat/Services/ContactService.dart';
 import 'package:anonymous_chat/Services/MessageService.dart';
 import 'package:anonymous_chat/Services/NotificationService.dart';
@@ -18,6 +19,7 @@ final MessageService messageService = MessageService.getInstance();
 final PigeonService pigeonService = PigeonService.getInstance();
 final FirebaseMessaging messaging = FirebaseMessaging.instance;
 final NotificationService notificationService = NotificationService.getInstance();
+final BlockService blockService = BlockService.getInstance();
 final MAX_INT = 4294967296;
 
 Color accentPurpleColor = Color(0xFF6A53A1);

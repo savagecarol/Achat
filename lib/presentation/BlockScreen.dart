@@ -8,7 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BlockScreen extends StatefulWidget {
   String displayName;
-  BlockScreen({super.key, required this.displayName});
+  String userPigeonId;
+  String blockPigeonId;
+  BlockScreen({super.key,
+   required this.displayName,
+   required this.userPigeonId,
+   required this.blockPigeonId});
 
   @override
   State<BlockScreen> createState() => _BlockScreenState();
@@ -20,27 +25,27 @@ class _BlockScreenState extends State<BlockScreen> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(builder: ((context, child) {
       return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    color: Colors.black,
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+              elevation: 0.0,
               backgroundColor: Colors.white,
-        appBar: AppBar(
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  color: Colors.black,
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            ),
-            elevation: 0.0,
-            backgroundColor: Colors.white,
-            title: Text("BLOCK",
-                style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold)))),
+              title: Text("BLOCK",
+                  style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold)))),
           body: SingleChildScrollView(
               child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -48,36 +53,45 @@ class _BlockScreenState extends State<BlockScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                Text(displayName(widget.displayName),
-                style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold))), 
-                SizedBox(height: 16,),
-
-                 Text("Terms and sdjndksjf sldfndksfnfdsf sdfklndslkfnfdsl sdflndslkfndfsf dsflndslkfndsf sdlfdlskfnfdslk",
-                style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400))),
-
-                SizedBox(height: 32,),
-                                    CustomButton(
-                                    isLoading: isBlockLoading,
-                                    postIcon: Icons.arrow_forward,
-                                    visiblepostIcon: true,
-                                    postIconColor: Colors.white,
-                                    postIconSize: 18.h,
-                                    labelText: "BLOCK USER  ",
-                                    sizelabelText: 16.h,
-                                    onTap: () async {
-                                      
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    },
-                    containerColor: Colors.black)
+                      Text(displayName(widget.displayName),
+                          style: GoogleFonts.montserrat(
+                              textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold))),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                          "Terms and sdjndksjf sldfndksfnfdsf sdfklndslkfnfdsl sdflndslkfndfsf dsflndslkfndsf sdlfdlskfnfdslk",
+                          style: GoogleFonts.montserrat(
+                              textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400))),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      CustomButton(
+                          isLoading: isBlockLoading,
+                          postIcon: Icons.arrow_forward,
+                          visiblepostIcon: true,
+                          postIconColor: Colors.white,
+                          postIconSize: 18.h,
+                          labelText: "BLOCK USER  ",
+                          sizelabelText: 16.h,
+                          onTap: () async {
+                            setState(() {
+                              isBlockLoading = true;
+                            });
+                            await blockService.blockUser(widget.userPigeonId, widget.blockPigeonId);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            setState(() {
+                              isBlockLoading = false;
+                            });
+                          },
+                          containerColor: Colors.black)
                     ],
                   ))));
     }));

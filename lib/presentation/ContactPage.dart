@@ -23,7 +23,7 @@ class _ContactPageState extends State<ContactPage> {
   void initState() {
     super.initState();
     _fetchContacts();
-    
+
   }
 
   Future<void> _fetchContacts() async {
@@ -114,6 +114,11 @@ class _ContactPageState extends State<ContactPage> {
           AppUser a = await authService.creatUnverifiedUser(value);
           int userPigeonId = int.parse(await preferenceService.getPigeonId());
           if (a.pigeonId != null) {
+              if (await blockService.getBlockCombination(userPigeonId.toString() ,a.pigeonId.toString())) {
+                          showToast("Blocked!!");
+                        }
+            else
+            { 
             Navigator.pop(context);
             Navigator.push(
               context,
@@ -124,6 +129,8 @@ class _ContactPageState extends State<ContactPage> {
                       pigeonId: a.pigeonId!,
                       userPigeonId: userPigeonId)),
             );
+
+            }
           }
 
         } else {

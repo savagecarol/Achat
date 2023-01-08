@@ -65,7 +65,9 @@ class _ChatScreenState extends State<ChatScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => BlockScreen(
-                    displayName : widget.displayName
+                    displayName : widget.displayName,
+                    userPigeonId: widget.userPigeonId.toString(),
+                    blockPigeonId: widget.pigeonId.toString(),
                   )));
                   },
                   child: const Icon(
