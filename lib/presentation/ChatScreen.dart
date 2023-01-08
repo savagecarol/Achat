@@ -4,6 +4,7 @@ import 'package:anonymous_chat/custom/CustomTextField.dart';
 import 'package:anonymous_chat/custom/MessageBox.dart';
 import 'package:anonymous_chat/models/Message.dart';
 import 'package:anonymous_chat/models/MessageDirection.dart';
+import 'package:anonymous_chat/presentation/BlockScreen.dart';
 import 'package:anonymous_chat/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +58,23 @@ class _ChatScreenState extends State<ChatScreen> {
                     textStyle: const TextStyle(
                         fontSize: 18,
                         color: Colors.black,
-                        fontWeight: FontWeight.bold))),
+                        fontWeight: FontWeight.bold))),       
+                InkWell(
+                  onTap:(){
+                     Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BlockScreen(
+                    displayName : widget.displayName
+                  )));
+                  },
+                  child: const Icon(
+                  Icons.more_horiz,
+                  color: Colors.black,
+                              
+                              
+                              ),
+                )
           ],
         ),
       ),
@@ -65,7 +82,8 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
               child: StreamBuilder(
-            stream: messageService.getStream(widget.userPigeonId, widget.pigeonId),
+            stream:
+                messageService.getStream(widget.userPigeonId, widget.pigeonId),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
                 List<MessageDirection> listDocument =
@@ -164,19 +182,14 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-     Timer.periodic(Duration(seconds: 5), (Timer t) 
-     {    messageService.updateMessage(widget.userPigeonId, widget.pigeonId);
-     });
- 
+    Timer.periodic(Duration(seconds: 5), (Timer t) {
+      messageService.updateMessage(widget.userPigeonId, widget.pigeonId);
+    });
   }
 
   bool isMessageLoading = false;
 
   _postMessage() async {
-    setState(() {
-      isMessageLoading = true;
-    });
-
     if (_messageController.text.isEmpty) {
       showToast("!Please type something");
       return;
@@ -194,6 +207,10 @@ class _ChatScreenState extends State<ChatScreen> {
         senderPigeonId: senderPigeonId,
         receiverPigeonId: receiverPigeonId);
     postMessage.seenTime = postMessage.time;
+    
+    setState(() {
+      _messageController.text = "";
+    });
 
     if (postMessage.senderPigeonId != postMessage.receiverPigeonId) {
       if (!await messageService.postMessage(postMessage)) {
@@ -202,10 +219,5 @@ class _ChatScreenState extends State<ChatScreen> {
     } else {
       showToast("!sender and receiver cannot be same");
     }
-    setState(() {
-      isMessageLoading = false;
-      _messageController.text = "";
-    });
   }
 }
-
