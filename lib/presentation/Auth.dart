@@ -60,7 +60,9 @@ class _AuthState extends State<Auth> {
     setState(() {
       isSmsLoading = true;
     });
+
     String? message = phoneRegex(phoneNumber);
+
     if (message == null) {
 
     await FirebaseAuth.instance
@@ -70,19 +72,17 @@ class _AuthState extends State<Auth> {
         print("1");
         print(id);
         verifId = id;
+        _goToOtpScreen();
       },
+
       codeAutoRetrievalTimeout: (String id) {
         print("2");
         verifId = id;
         print(verifId);
-        print("3");
-        _goToOtpScreen();
+
       },
-      timeout: Duration(seconds: 30),
-      verificationCompleted: (AuthCredential credential) {
-        print("4");
-        print(credential);
-      },
+      timeout: Duration(seconds: 60),
+      verificationCompleted: (AuthCredential credential) {},
       verificationFailed: (FirebaseAuthException exception) {
         print("exceprion----> ");
         print(exception.message);

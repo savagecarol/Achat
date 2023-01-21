@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             _barWidget(Icons.share, "Invite A Friend",
                                 Icons.arrow_forward, () async {
-                              Share.share( "https://play.google.com/store/apps/details?id=com.savagecarol.multiply2");
+                              Share.share( "https://play.google.com/store/apps/details?id=com.savagecarol.pigeon");
                             }),
                             const SizedBox(
                               height: 16,
@@ -120,7 +120,7 @@ class _ProfileState extends State<Profile> {
                             _barWidget(Icons.rate_review, "Rate Us",
                                 Icons.arrow_forward, () async {
                               String url =
-                                  "https://play.google.com/store/apps/details?id=com.savagecarol.multiply2";
+                                  "https://play.google.com/store/apps/details?id=com.savagecarol.pigeon";
                               if (!await launchUrl(Uri.parse(url))) {
                                 showToast("!!oops not able to reach link");
                               }
