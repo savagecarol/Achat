@@ -23,14 +23,12 @@ class _ContactPageState extends State<ContactPage> {
   void initState() {
     super.initState();
     _fetchContacts();
-
   }
 
   Future<void> _fetchContacts() async {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
-      var contacts = await ContactsService.getContacts();
-      
+            var contacts = await ContactsService.getContacts();
       var list = await contactService.getAllActiveUserByContactList(contacts);
       setState(() => exsistContactList = list);
     } else {
@@ -114,25 +112,22 @@ class _ContactPageState extends State<ContactPage> {
           AppUser a = await authService.creatUnverifiedUser(value);
           int userPigeonId = int.parse(await preferenceService.getPigeonId());
           if (a.pigeonId != null) {
-              if (await blockService.getBlockCombination(userPigeonId.toString() ,a.pigeonId.toString())) {
-                          showToast("Blocked!!");
-                        }
-            else
-            { 
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                      displayName: exsistContact.contactNumber.name,
-                      phoneNumber: a.phoneNumber!,
-                      pigeonId: a.pigeonId!,
-                      userPigeonId: userPigeonId)),
-            );
-
+            if (await blockService.getBlockCombination(
+                userPigeonId.toString(), a.pigeonId.toString())) {
+              showToast("Blocked!!");
+            } else {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                        displayName: exsistContact.contactNumber.name,
+                        phoneNumber: a.phoneNumber!,
+                        pigeonId: a.pigeonId!,
+                        userPigeonId: userPigeonId)),
+              );
             }
           }
-
         } else {
           showToast("!oops Something Went Wrong");
         }
@@ -160,7 +155,7 @@ class _ContactPageState extends State<ContactPage> {
                                 fontWeight: FontWeight.bold))),
                   ),
                 ),
-                Text(displayName(exsistContact.contactNumber.name ),
+                Text(displayName(exsistContact.contactNumber.name),
                     style: GoogleFonts.montserrat(
                         textStyle: const TextStyle(
                             fontSize: 16,
@@ -180,7 +175,7 @@ class _ContactPageState extends State<ContactPage> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

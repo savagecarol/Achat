@@ -42,7 +42,6 @@ class _AuthState extends State<Auth> {
       } else {
         showToast("!oops something went wronh");
       }
-
     }
     setState(() {
       isPageLoading = false;
@@ -57,20 +56,31 @@ class _AuthState extends State<Auth> {
     );
   }
 
-  Future<void> phoneAuth() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
+  void getOtp() async {
+    setState(() {
+      isSmsLoading = true;
+    });
+    String? message = phoneRegex(phoneNumber);
+    if (message == null) {
+
+    await FirebaseAuth.instance
+        .verifyPhoneNumber(
       phoneNumber: "+91$phoneNumber",
       codeSent: (String id, forceResendingToken) {
+        print("1");
+        print(id);
         verifId = id;
-        print("verifId ----> " + verifId);
-        _goToOtpScreen();
       },
       codeAutoRetrievalTimeout: (String id) {
+        print("2");
         verifId = id;
+        print(verifId);
+        print("3");
+        _goToOtpScreen();
       },
       timeout: Duration(seconds: 30),
       verificationCompleted: (AuthCredential credential) {
-        print("cred-----> ");
+        print("4");
         print(credential);
       },
       verificationFailed: (FirebaseAuthException exception) {
@@ -78,23 +88,18 @@ class _AuthState extends State<Auth> {
         print(exception.message);
         showToast("!oops Not able to send Otp");
       },
-    );
-  }
+    ).catchError((e) {
+      print("5");
+      print(e);
+    });
 
-  void getOtp() async {
-    String? message = phoneRegex(phoneNumber);
-    if (message == null) {
-      setState(() {
-        isSmsLoading = true;
-      });
-      await phoneAuth();
-
-      setState(() {
-        isSmsLoading = false;
-      });
+    
     } else {
       showToast(message);
     }
+     setState(() {
+      isSmsLoading = false;
+    });
   }
 
   @override
@@ -168,9 +173,7 @@ class _AuthState extends State<Auth> {
                                     postIconSize: 18.h,
                                     labelText: "SEND OTP  ",
                                     sizelabelText: 16.h,
-                                    onTap: () async {
-                                      getOtp();
-                                    },
+                                    onTap: getOtp,
                                     containerColor: Colors.black)
                               ],
                             ),

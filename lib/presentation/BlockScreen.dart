@@ -59,16 +59,26 @@ class _BlockScreenState extends State<BlockScreen> {
                                   fontSize: 18,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold))),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       Text(
-                          "Terms and sdjndksjf sldfndksfnfdsf sdfklndslkfnfdsl sdflndslkfndfsf dsflndslkfndsf sdlfdlskfnfdslk",
+                          "1. If, you block ${displayName(widget.displayName)} then you can never unblock it.",
                           style: GoogleFonts.montserrat(
                               textStyle: const TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w400))),
+                                  fontWeight: FontWeight.w500))),
+                        const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                          "2. If, ${displayName(widget.displayName)} is bothering, blackmailing, humilating you.In that situation you can visit our help section on About us page.",
+                          style: GoogleFonts.montserrat(
+                              textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500))),
                       const SizedBox(
                         height: 32,
                       ),

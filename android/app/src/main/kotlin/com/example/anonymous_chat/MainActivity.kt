@@ -1,4 +1,4 @@
-package com.example.anonymous_chat
+package com.savagecarol.pigeon
 
 import io.flutter.embedding.android.FlutterActivity
 

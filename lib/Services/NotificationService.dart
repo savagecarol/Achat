@@ -23,7 +23,7 @@ class NotificationService {
 
   void sendPushMessage(Message message) async {
     try {
-      print("DSFdsf");
+      // print("DSFdsf");
       DocumentSnapshot x = await _firestore
           .collection('FCM')
           .doc(message.receiverPigeonId)
@@ -44,11 +44,12 @@ class NotificationService {
                     "body": message.message
                   }
                 }));
-        print(response.statusCode);
-        print(response.body);
+        // print(response.statusCode);
+        // print(response.body);
       }
     } catch (e) {
-      print(e);
+      // print(e);
+      throw e;
     }
   }
 }

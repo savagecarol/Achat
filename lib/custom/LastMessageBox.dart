@@ -12,7 +12,7 @@ class LastMessageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(lastMessageIcon.lastMessage.isSeen);
+    // print(lastMessageIcon.lastMessage.isSeen);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       margin: const EdgeInsets.only(bottom: 8),

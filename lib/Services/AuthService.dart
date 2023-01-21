@@ -14,7 +14,7 @@ class AuthService {
 
   Future<bool> verify(String verificationId, String otp) async {
     try {
-      print("auth request");
+  
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otp);
       UserCredential credentials =
@@ -80,7 +80,6 @@ class AuthService {
         await preferenceService.setPigeonId(checkDoc.get('pigeonId'));
       }
     } catch (e) {
-      print(e);
       throw e;
     }
   }

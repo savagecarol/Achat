@@ -64,14 +64,14 @@ class MessageService {
         });
       }
 
-      AssetsAudioPlayer.newPlayer().open(
+         AssetsAudioPlayer.newPlayer().open(
         Audio("assets/music/tone.mp3"),
         showNotification: true,
       );
 
       notificationService.sendPushMessage(message);
 
-      print("sakdaskl");
+      // print("sakdaskl");
       return true;
     } catch (e) {
       return false;
@@ -138,13 +138,13 @@ class MessageService {
 
       DocumentReference receiver = await _firestore
           .collection('PIGEON')
-          .doc(senderPigeonId.toString() + receiverPigeonId.toString() );
+          .doc(senderPigeonId.toString() + receiverPigeonId.toString());
 
       await sender.get().then((value) async {
         if (value.exists) {
           if (value.get('receiverPigeonId') == senderPigeonId.toString() &&
-              value.get('senderPigeonId') == receiverPigeonId.toString()
-              && value.get('isSeen') == false) {
+              value.get('senderPigeonId') == receiverPigeonId.toString() &&
+              value.get('isSeen') == false) {
             sender.update({'isSeen': true, 'seenTime': DateTime.now()});
           }
         }
@@ -153,8 +153,8 @@ class MessageService {
       await receiver.get().then((value) async {
         if (value.exists) {
           if (value.get('receiverPigeonId') == senderPigeonId.toString() &&
-              value.get('senderPigeonId') == receiverPigeonId.toString()
-               && value.get('isSeen') == false) {
+              value.get('senderPigeonId') == receiverPigeonId.toString() &&
+              value.get('isSeen') == false) {
             receiver.update({'isSeen': true, 'seenTime': DateTime.now()});
           }
         }
